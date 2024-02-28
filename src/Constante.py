@@ -1,5 +1,3 @@
-# variable globale constante
-
 """
     Constante
     ---------
