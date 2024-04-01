@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
-from Dico import Dico
+from app.src.model.Dico import Dico
 
 
 class Front:

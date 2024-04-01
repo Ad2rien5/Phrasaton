@@ -1,4 +1,4 @@
-import Constante
+import app.src.model.Constante as Constante
 
 def antiMauvaisSigne(mot: str) -> str:
     """

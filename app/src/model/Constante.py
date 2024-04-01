@@ -27,3 +27,4 @@ FIN_PARENTHESE = [")", "}",  "]"]
 PONCTUATION = ["?", ",", ";", ".", ":", "!"]
 FIN_PHRASE = [0, 3, 5]
 FIN_PHRASE_STR = [PONCTUATION[i] for i in FIN_PHRASE]
+

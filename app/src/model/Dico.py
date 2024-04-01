@@ -1,6 +1,6 @@
-from Mot import *
-import Constante
-import Nettoyage
+from app.src.model.Mot import *
+import app.src.model.Constante as Constante
+import app.src.controller.Nettoyage as Nettoyage
 
 class Dico:
     """
