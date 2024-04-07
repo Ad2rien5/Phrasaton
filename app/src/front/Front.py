@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
-from app.src.model.Dico import Dico
+from Dico import Dico
 
 
 class Front:
@@ -102,8 +102,3 @@ class Front:
         
         self.output_text.configure(state="disabled")
         self.output_text.see(tk.END)
-
-
-# Lancement du programme
-Test = Front()
-Test.start()

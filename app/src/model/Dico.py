@@ -1,5 +1,5 @@
-from app.src.model.Mot import *
-import app.src.model.Constante as Constante
+from word import *
+import global_value as global_value
 import app.src.controller.Nettoyage as Nettoyage
 
 class Dico:
@@ -27,9 +27,9 @@ class Dico:
         self.nbPhrase = 0
 
         # initialisation de la base de donnée
-        self.mots = [Mot(element) for element in Constante.PONCTUATION]
+        self.mots = [Mot(element) for element in global_value.PONCTUATION]
         self.mots.append(Mot("leer"))
-        for index in Constante.FIN_PHRASE:
+        for index in global_value.FIN_PHRASE:
             self.mots[index]._estFinPhrase(6)
 
     
@@ -122,7 +122,7 @@ class Dico:
             suivant = self.mots[current].suivant()
             texte += self.mots[suivant].valeur
 
-            if self.mots[suivant].valeur in Constante.FIN_PHRASE_STR:
+            if self.mots[suivant].valeur in global_value.FIN_PHRASE_STR:
                 nb += 1
 
             current = suivant
@@ -145,13 +145,13 @@ class Dico:
         # on compte le nombre de phrase
         self.nbPhrase = 0
         for ponct in propre:
-            if ponct in Constante.FIN_PHRASE_STR:
+            if ponct in global_value.FIN_PHRASE_STR:
                 self.nbPhrase += 1
 
-        assert propre[-1] in Constante.FIN_PHRASE_STR, "Cette phrase ne se termine pas par un signe de ponctuation valide!"
+        assert propre[-1] in global_value.FIN_PHRASE_STR, "Cette phrase ne se termine pas par un signe de ponctuation valide!"
         
         # ajout du premier mot à la liste des suivants de tous les signes de ponctuation
-        for ponctuation in Constante.FIN_PHRASE_STR:
+        for ponctuation in global_value.FIN_PHRASE_STR:
             self.ajoutProba(ponctuation, propre[0])
 
         for mot in range(len(propre[1:])):

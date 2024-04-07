@@ -1,4 +1,4 @@
-import app.src.model.Constante as Constante
+import global_value as global_value
 
 def antiMauvaisSigne(mot: str) -> str:
     """
@@ -16,7 +16,7 @@ def antiMauvaisSigne(mot: str) -> str:
     """
     assert type(mot) == str, "mot n'est pas un string"
 
-    for chara in Constante.MAUVAIS_SIGNE:
+    for chara in global_value.MAUVAIS_SIGNE:
         while chara in mot:
             assert len(mot) > 1, f"CharacterError: a forbidden character have been found! PLease do not use '{mot}' anymore."
             mot = str(list(mot).pop(list(mot).index(chara)))
@@ -40,7 +40,7 @@ def ponctuation(mot: str) -> tuple:
             ponctuation qui était à la fin du mot
     """
     assert type(mot) == str, "mot n'est pas un string"
-    assert mot[-1] in Constante.PONCTUATION, "aucune raison d'appeler cette fonction"
+    assert mot[-1] in global_value.PONCTUATION, "aucune raison d'appeler cette fonction"
 
     return mot[:-1], mot[-1]
 
@@ -68,22 +68,22 @@ def detection(mot: str, nb_paren: int) -> tuple:
     """
     retour = mot
 
-    for debut in Constante.DEBUT_PARENTHESE:
+    for debut in global_value.DEBUT_PARENTHESE:
         if debut in retour:
             nb_paren += 1
 
-    for fin in Constante.FIN_PARENTHESE:
+    for fin in global_value.FIN_PARENTHESE:
         if fin in retour:
             nb_paren -= 1
 
     if nb_paren > 0:
         return nb_paren, None, None
 
-    for chara in Constante.MAUVAIS_SIGNE:
+    for chara in global_value.MAUVAIS_SIGNE:
         if chara in retour:
             retour = antiMauvaisSigne(retour)[0]
     
-    for chara2 in Constante.PONCTUATION:
+    for chara2 in global_value.PONCTUATION:
         if chara2 in retour:
             result = ponctuation(retour)
             return nb_paren, result[0], result[1]
