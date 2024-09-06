@@ -1,6 +1,6 @@
-class Global_value:
+class GlobalValue:
     """
-        Global_value
+        GlobalValue
         ------------
         BAD_CHAR: list<str>
             List which contain forbidden character.
@@ -27,7 +27,7 @@ class Global_value:
         self.SENTENCE_END = [0, 3, 5]
         
         
-    def SENT_END_STR(self) -> list:
+    def end_sent_str(self) -> list:
         """
         Return a list of the value of 'self.SENTENCE_END' but in str type. 
         """
