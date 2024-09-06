@@ -17,14 +17,14 @@ class Word:
     def __init__(self, value: str) -> None:
         self.value = value
         self._next = []
-        self._already_use = []
+        self._cache = []
     
     def add_word(self, index: int) -> None:
         """
-            Add a word to the 'next_list', but if the word is already in it, it incremente the number of encounter.
+            Add a word to the 'next_list', but if the word is already in it, it increments the number of encounter.
         """
         fund = False
-        for i in range(len(self._next_list)):
+        for i in range(len(self._next)):
             if self._next[i][0] == index:
                 self._next[i][1] += 1
                 fund = True
@@ -34,20 +34,19 @@ class Word:
             self._next.append([index, 1])
 
 
-    def is_end(self, indexLeer: int) -> None:
+    def is_end(self, index_leer: int) -> None:
         """
-            Function that specifie that the current word can be use as the end of a sentence.
+            Function that specify that the current word can be used as the end of a sentence.
         """
         assert not self._next, "This function can only be use just after it's initialisation."
-        self._next.append([indexLeer, -1])
+        self._next.append([index_leer, -1])
 
 
-    def reset_already(self) -> None:
+    def delete_cache(self) -> None:
         """
-            Méthode qui permet de réinitialiser la liste des index déjà utiliser
-            Cette méthode est utilisé lorsque que l'on commence à générer un nouveau texte.
+            Delete all previous use of this word
         """
-        self._already_use = []
+        self._cache = []
 
     def next_word(self) -> int:
         """
@@ -55,20 +54,20 @@ class Word:
 
             Return
             ------
-            choosen_one: int
+            chosen_one: int
                 index of the next word in the dictionary
         """
-        choosen_one = [None, 0]
+        chosen_one = [None, 0]
 
         for element in self._next:
 
-            if element[1] > choosen_one[1] and (element[0] not in self._already_use or choosen_one == None):
-                choosen_one = element
+            if element[1] > chosen_one[1] and (element[0] not in self._cache or chosen_one is None):
+                chosen_one = element
 
-                if element[0] not in self._already_use:
-                    self._already_use.append(element[0])
+                if element[0] not in self._cache:
+                    self._cache.append(element[0])
         
-        if choosen_one[0] == None:
+        if chosen_one[0] is None:
             return self._next[0][0]
 
-        return choosen_one[0]
+        return chosen_one[0]

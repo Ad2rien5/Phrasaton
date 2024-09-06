@@ -16,7 +16,7 @@ def purge_bad_char(word: str) -> str:
     """
     assert type(word) == str, "word is not a string"
 
-    bad_char = global_value.Global_value().BAD_CHAR
+    bad_char = global_value.GlobalValue().BAD_CHAR
 
     for chara in bad_char:
         while chara in word:
@@ -43,7 +43,7 @@ def punctuation(word: str) -> tuple:
             the punctuation that was at the end of the word
     """
     assert type(word) == str, "word is not a string"
-    assert word[-1] in global_value.Global_value().PUNCTUATION, "This word doesn't contain any punctuation."
+    assert word[-1] in global_value.GlobalValue().PUNCTUATION, "This word doesn't contain any punctuation."
 
     return word[:-1], word[-1]
 
@@ -55,14 +55,14 @@ def detection(word: str, nb_paren: int) -> tuple:
         Parameter
         ---------
         word: str
-            word that need to be verify
+            word that need to be verified
 
         nb_paren: int
             number of opening parenthesis found
 
         Return
         ------
-        nb_paren: intretour
+        nb_paren: int
             number of opening parenthesis found
         verified: str
             word cleansed of any unwanted character
@@ -70,7 +70,7 @@ def detection(word: str, nb_paren: int) -> tuple:
             possible punctuation
     """
     verified = word
-    gv = global_value.Global_value()
+    gv = global_value.GlobalValue()
 
     for start in gv.PARENTHESIS_START:
         if start in verified:

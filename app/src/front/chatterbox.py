@@ -50,15 +50,15 @@ class Chatterbox:
         command = self.input_text.get("1.0", tk.END).strip()
         self.input_text.delete("1.0", tk.END)
         self.input_text.configure(state="disabled")
-        self.use_outputbox(command)
+        self.use_output_box(command)
         
         try:
             self.dico.learn(command)
             answer = self.dico.speak()
-            self.use_outputbox(answer, "bot")
+            self.use_output_box(answer, "bot")
 
         except AssertionError as err:
-            self.use_outputbox(str(err), "error")
+            self.use_output_box(str(err), "error")
 
         self.input_text.configure(state="normal")
 
@@ -72,7 +72,7 @@ class Chatterbox:
         self.window.mainloop()
 
 
-    def use_outputbox(self, text: str, style: str = None) -> None:
+    def use_output_box(self, text: str, style: str = None) -> None:
         """
             Allow the user to use the output box
 

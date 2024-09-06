@@ -10,7 +10,7 @@ class Dico:
         ----------
         nbSentences: int
             Number of sentence contained by the previous user's message.
-            It allow to create a response with the same amount of sentence.
+            It allows to create a response with the same amount of sentence.
 
         words: list<Word>
             list of words
@@ -21,7 +21,7 @@ class Dico:
         self.nbSentences = 0
 
         # initialisation de la base de donnée
-        gv = global_value.Global_value()
+        gv = global_value.GlobalValue()
         self.words = [word.Word(element) for element in gv.PUNCTUATION]
         self.words.append(word.Word("leer"))
         for index in gv.SENTENCE_END:
@@ -50,7 +50,7 @@ class Dico:
         return -1
     
 
-    def addOccurrence(self, actual: str, after: str) -> None:
+    def add_occurrence(self, actual: str, after: str) -> None:
         """
             Add an occurrence of the "next" word in the "actual" word
 
@@ -78,13 +78,13 @@ class Dico:
         self.words[index1].add_word(index2)
 
     
-    def resetAlreadyuse(self) -> None:
+    def reset_cache(self) -> None:
         """
             Méthode qui va permettre de réinitialiser pour tous les mots, leur attribut 'dejaUtilise' (voir './Mot.py')
             Reset all cache from each word
         """
         for i in range(len(self.words)):
-            self.words[i].reset_already()
+            self.words[i].delete_cache()
     
 
     def speak(self) -> str:
@@ -101,19 +101,19 @@ class Dico:
         current = 3
         nb = 0
         text = ""
-        gv = global_value.Global_value()
+        gv = global_value.GlobalValue()
 
         while nb < self.nbSentences:
             
             after = self.words[current].next_word()
             text += self.words[after].value
 
-            if self.words[after].value in gv.SENT_END_STR():
+            if self.words[after].value in gv.end_sent_str():
                 nb += 1
 
             current = after
 
-        self.resetAlreadyuse()
+        self.reset_cache()
         return text
     
 
@@ -130,16 +130,16 @@ class Dico:
 
         # counting the sentences
         self.nbSentences = 0
-        gv = global_value.Global_value()
+        gv = global_value.GlobalValue()
         for punct in clean_text:
-            if punct in gv.SENT_END_STR():
+            if punct in gv.end_sent_str():
                 self.nbSentences += 1
 
-        assert clean_text[-1] in gv.SENT_END_STR(), "This sentence don't end with a valid punctuation."
+        assert clean_text[-1] in gv.end_sent_str(), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
-        for punctuation in gv.SENT_END_STR():
-            self.addOccurrence(punctuation, clean_text[0])
+        for punctuation in gv.end_sent_str():
+            self.add_occurrence(punctuation, clean_text[0])
 
-        for word in range(len(clean_text[1:])):
-            self.addOccurrence(clean_text[word], clean_text[word+1])
+        for index in range(len(clean_text[1:])):
+            self.add_occurrence(clean_text[index], clean_text[index+1])
