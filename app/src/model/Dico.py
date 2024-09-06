@@ -1,6 +1,6 @@
 from word import *
 import global_value as global_value
-import app.src.controller.Nettoyage as Nettoyage
+import app.src.controller.word_cleaning as Nettoyage
 
 class Dico:
     """
@@ -27,9 +27,10 @@ class Dico:
         self.nbPhrase = 0
 
         # initialisation de la base de donnée
-        self.mots = [Mot(element) for element in global_value.PONCTUATION]
+        gv = global_value.Global_value()
+        self.mots = [Mot(element) for element in gv.PUNCTUATION]
         self.mots.append(Mot("leer"))
-        for index in global_value.FIN_PHRASE:
+        for index in gv.SENTENCE_END:
             self.mots[index]._estFinPhrase(6)
 
     
@@ -116,13 +117,14 @@ class Dico:
         current = 3
         nb = 0
         texte = ""
+        gv = global_value.Global_value()
 
         while nb < self.nbPhrase:
             
             suivant = self.mots[current].suivant()
             texte += self.mots[suivant].valeur
 
-            if self.mots[suivant].valeur in global_value.FIN_PHRASE_STR:
+            if self.mots[suivant].valeur in gv.SENT_END_STR():
                 nb += 1
 
             current = suivant
@@ -140,18 +142,20 @@ class Dico:
             texte: str
                 Texte que l'on souhaite ajouter dans la base de donnée
         """
-        propre = Nettoyage.Nettoyage_de_Masse(texte)
+        propre = Nettoyage.mass_cleaning(
+            texte)
 
         # on compte le nombre de phrase
         self.nbPhrase = 0
+        gv = global_value.Global_value()
         for ponct in propre:
-            if ponct in global_value.FIN_PHRASE_STR:
+            if ponct in gv.SENT_END_STR():
                 self.nbPhrase += 1
 
-        assert propre[-1] in global_value.FIN_PHRASE_STR, "Cette phrase ne se termine pas par un signe de ponctuation valide!"
+        assert propre[-1] in gv.SENT_END_STR(), "Cette phrase ne se termine pas par un signe de ponctuation valide!"
         
         # ajout du premier mot à la liste des suivants de tous les signes de ponctuation
-        for ponctuation in global_value.FIN_PHRASE_STR:
+        for ponctuation in gv.SENT_END_STR():
             self.ajoutProba(ponctuation, propre[0])
 
         for mot in range(len(propre[1:])):
