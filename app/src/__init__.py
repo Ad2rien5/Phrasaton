@@ -1,5 +1,5 @@
-from front.chatterbox import *
+import front.chatterbox as chatterbox
 
-# Lancement du programme
-Test = Front()
-Test.start()
+# launching the app
+App = chatterbox.Chatterbox()
+App.start()
