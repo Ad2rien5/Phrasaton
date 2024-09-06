@@ -7,7 +7,7 @@ class Word:
         
         next_list: list<list<int>>
             list of list of two int
-                - index of the word in the actual dictionnary
+                - index of the word in the actual dictionary
                 - number of times it has appeared after the current word
 
         already_use: list<int>
@@ -49,9 +49,14 @@ class Word:
         """
         self._already_use = []
 
-    def next_word(self) -> None:
+    def next_word(self) -> int:
         """
             Function that find the next word in the sentence (in the case of the generation of a sentence).
+
+            Return
+            ------
+            choosen_one: int
+                index of the next word in the dictionary
         """
         choosen_one = [None, 0]
 
