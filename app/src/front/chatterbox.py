@@ -1,43 +1,38 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
-from Dico import Dico
+
+import app.src.model.dico as dico
 
 
-class Front:
+class Chatterbox:
     """
-        Classe qui défini le front-end de l'application
+        Front for the chatterbox
 
-        Attribut
-        --------
+        Attributes
+        ----------
         dico: Dico
-            Dictionnaire de l'appli
+            Dictionary of the app
         
         window: tk.TK
-            fenêtre de l'application
+            window of the application
 
         output_text: tk.ScrolledText
-            boîte d'affichage du dialogue entre l'utilisateur et le Phrasaton
+            dialog box between the user and Phrasaton
 
-        intput_text: tk.Text
-            boîte d'entré de texte pour l'utilisateur
+        input_text: tk.Text
+            entry box for the user
     """
     def __init__(self) -> None:
-        """
-            Constructeur
-            
-            Initialise la fenêtre et les différents widgets
-        """
-        # Création du dictionnaire
-        self.dico = Dico()
+        # create the dictionary
+        self.dico = dico.Dico()
 
-        # Création de la fenêtre principale
+        # create the main window
         self.window = tk.Tk()
         self.window.title("Phrasaton")
         self.window.geometry("800x600")
         self.window.colormapwindows = "white"
 
-
-        # Zone de texte pour afficher l'entrée et la sortie
+        # text zone for conversation
         self.output_text = ScrolledText(self.window, bg="black", fg="white", insertbackground="white", height=20, font=("Courier", 12), border= 5)
         self.output_text.pack(fill=tk.X, expand=False)
         self.output_text.configure(state="disabled")
@@ -50,7 +45,7 @@ class Front:
 
     def process_command(self) -> None:
         """
-            Méthode qui va lancer l'algorithme quand l'utilisateur appuie sur 'enter'
+            Process the user's request
         """
         command = self.input_text.get("1.0", tk.END).strip()
         self.input_text.delete("1.0", tk.END)
@@ -58,19 +53,19 @@ class Front:
         self.use_outputbox(command)
         
         try:
-            self.dico.apprends(command)
-            retour = self.dico.parle()
-            self.use_outputbox(retour, "bot")
+            self.dico.learn(command)
+            answer = self.dico.speak()
+            self.use_outputbox(answer, "bot")
 
         except AssertionError as err:
-            self.use_outputbox(err, "error")
+            self.use_outputbox(str(err), "error")
 
         self.input_text.configure(state="normal")
 
 
     def start(self) -> None:
         """
-            Méthode qui va faire une boucle infinie afin de pouvoir utiliser l'application
+            Loophole for the application to work.
         """
         # Capture de la touche "Enter" pour traiter la commande
         self.window.bind("<Return>", lambda event: self.process_command())
@@ -79,21 +74,21 @@ class Front:
 
     def use_outputbox(self, text: str, style: str = None) -> None:
         """
-            Méthode qui permet d'utiliser la boîte output
+            Allow the user to use the output box
 
-            Paramètre
-            ---------
-            text: str
-                Le texte à afficher
-            style: str
-                Style à utiliser pour afficher le texte. IL existe deux style
+            Parameters
+            ----------
+            text : str
+                the text to prompt
+            style : str
+                style to use for the text. Two exist:
                     - bot
                     - error
-                Possède pour valeur par défaut 'None', ce qui correspond à un texte pour l'utilisateur
+                The 'None' value define the style for the user
         """
         self.output_text.configure(state="normal")
 
-        if style != None:
+        if style is not None:
             assert style in ["bot", "error"], "Invalid style use for the prompt"
             self.output_text.insert(tk.END, f"{text}\n\n", style)
 

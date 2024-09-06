@@ -1,4 +1,4 @@
-from front.Front import *
+from front.chatterbox import *
 
 # Lancement du programme
 Test = Front()
