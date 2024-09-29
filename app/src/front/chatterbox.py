@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
-import app.src.model.dico as dico
+from model.dico import Dico
 
 
 class Chatterbox:
@@ -24,7 +24,7 @@ class Chatterbox:
     """
     def __init__(self) -> None:
         # create the dictionary
-        self.dico = dico.Dico()
+        self.dico = Dico()
 
         # create the main window
         self.window = tk.Tk()

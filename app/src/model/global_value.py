@@ -15,8 +15,7 @@ class GlobalValue:
             List which contain all punctuation that is not forbidden.
         
         SENTENCE_END: list<str>
-
-
+            List of all index that point to a punctuation that can end a sentence.
     """
 
     def __init__(self) -> None:    

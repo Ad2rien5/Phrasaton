@@ -1,6 +1,6 @@
-import word
-import global_value
-import app.src.controller.word_cleaning as word_cleaning
+import model.word as word
+import model.global_value as global_value
+import controller.word_cleaning as word_cleaning
 
 class Dico:
     """

@@ -1,4 +1,4 @@
-import app.src.model.global_value as global_value
+import model.global_value as global_value
 
 def purge_bad_char(word: str) -> str:
     """
