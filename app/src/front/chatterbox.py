@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
-from model.dico import Dico
+from controller.dico_access import DicoAccess
 
 
 class Chatterbox:
@@ -10,8 +10,8 @@ class Chatterbox:
 
         Attributes
         ----------
-        dico: Dico
-            Dictionary of the app
+        dico_access: DicoAccess
+            Controller that allow access to the Dico
         
         window: tk.TK
             window of the application
@@ -24,7 +24,7 @@ class Chatterbox:
     """
     def __init__(self) -> None:
         # create the dictionary
-        self.dico = Dico()
+        self.dico_access = DicoAccess()
 
         # create the main window
         self.window = tk.Tk()
@@ -51,14 +51,17 @@ class Chatterbox:
         self.input_text.delete("1.0", tk.END)
         self.input_text.configure(state="disabled")
         self.use_output_box(command)
-        
-        try:
-            self.dico.learn(command)
-            answer = self.dico.speak()
-            self.use_output_box(answer, "bot")
 
-        except AssertionError as err:
-            self.use_output_box(str(err), "error")
+        # learn from user
+        err = self.dico_access.save_dico_data(command)
+        if err:
+            self.use_output_box(err, "error")
+        else:
+            answer, err = self.dico_access.get_text_from_dico()
+            if err:
+                self.use_output_box(err, "error")
+            else:
+                self.use_output_box(answer, "bot")
 
         self.input_text.configure(state="normal")
 

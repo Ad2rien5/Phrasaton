@@ -1,6 +1,5 @@
 import model.word as word
 import model.global_value as global_value
-import controller.word_cleaning as word_cleaning
 
 class Dico:
     """
@@ -117,7 +116,7 @@ class Dico:
         return text
     
 
-    def learn(self, texte: str) -> None:
+    def learn(self, texte: tuple) -> None:
         """
             Save a whole text in the database
 
@@ -126,20 +125,18 @@ class Dico:
             text: str
                 Text that need to be saved
         """
-        clean_text = word_cleaning.mass_cleaning(texte)
-
         # counting the sentences
         self.nbSentences = 0
         gv = global_value.GlobalValue()
-        for punct in clean_text:
+        for punct in texte:
             if punct in gv.end_sent_str():
                 self.nbSentences += 1
 
-        assert clean_text[-1] in gv.end_sent_str(), "This sentence don't end with a valid punctuation."
+        assert texte[-1] in gv.end_sent_str(), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
         for punctuation in gv.end_sent_str():
-            self.add_occurrence(punctuation, clean_text[0])
+            self.add_occurrence(punctuation, texte[0])
 
-        for index in range(len(clean_text[1:])):
-            self.add_occurrence(clean_text[index], clean_text[index+1])
+        for index in range(len(texte[1:])):
+            self.add_occurrence(texte[index], texte[index+1])
