@@ -17,14 +17,14 @@ poursuivre son développement et de partager mes progrès !
 
 Pour utiliser ce programme, il faut effectuer plusieurs étapes. Tout d'abord, 
 il faut installer les dépendances nécessaires au fonctionnement. Ces 
-dépendances sont inscrites dans le fichier *requirement.txt*. Puis, il est 
-nécessaire d'ajouter à la variable *PYTHONPATH* le chemin menant à 
-*Phrasaton/app*. Et enfin, il faut lancer le fichier *__main__.py*.
+dépendances sont inscrites dans le fichier *requirement.txt*. Puis, il faut 
+montrer à Python où se situe les différents modules de Phrasaton. Et enfin, 
+il faut lancer le fichier *__main__.py*.
 
 Pour effectuer tout cela, vous pouvez utiliser ces commandes :
 ```shell
 pip install -r requirement.txt
-export PYTHONPATH=/Phrasaton/app
+pip install -e .
 python3 app/src/__main__.py
 ```
 
