@@ -1,19 +1,20 @@
-import model.word as word
 import model.global_value as global_value
+import model.word as word
+
 
 class Dico:
     """
-        Stock and manipulate words
+    Stock and manipulate words
 
-        Attributes
-        ----------
-        nbSentences: int
-            Number of sentence contained by the previous user's message.
-            It allows to create a response with the same amount of sentence.
+    Attributes
+    ----------
+    nbSentences: int
+        Number of sentence contained by the previous user's message.
+        It allows to create a response with the same amount of sentence.
 
-        words: list<Word>
-            list of words
-            At creation, generate some essential words from "global_value.py"
+    words: list<Word>
+        list of words
+        At creation, generate some essential words from "global_value.py"
     """
 
     def __init__(self) -> None:
@@ -26,40 +27,38 @@ class Dico:
         for index in gv.SENTENCE_END:
             self.words[index].is_end(6)
 
-    
     def find(self, value: str) -> int:
         """
-            Find the index of a given word
+        Find the index of a given word
 
-            Parameter
-            ---------
-            value: str
-                wanted word
-            
-            Return
-            ------
-            index: int
-                index of the word inside the dictionary
-                return -1 if the word isn't find
+        Parameter
+        ---------
+        value: str
+            wanted word
+
+        Return
+        ------
+        index: int
+            index of the word inside the dictionary
+            return -1 if the word isn't find
         """
         assert type(value) == str, "value is not a string"
         for i in range(len(self.words)):
             if self.words[i].value == value:
                 return i
         return -1
-    
 
     def add_occurrence(self, actual: str, after: str) -> None:
         """
-            Add an occurrence of the "next" word in the "actual" word
+        Add an occurrence of the "next" word in the "actual" word
 
-            Parameters
-            ----------
-            actual: str
-                word that need to add an occurrence
+        Parameters
+        ----------
+        actual: str
+            word that need to add an occurrence
 
-            after: str
-                the occurrence
+        after: str
+            the occurrence
         """
         assert type(actual) == str, "actual is not a string"
         assert type(after) == str, "next is not a string"
@@ -76,24 +75,22 @@ class Dico:
 
         self.words[index1].add_word(index2)
 
-    
     def reset_cache(self) -> None:
         """
-            Méthode qui va permettre de réinitialiser pour tous les mots, leur attribut 'dejaUtilise' (voir './Mot.py')
-            Reset all cache from each word
+        Méthode qui va permettre de réinitialiser pour tous les mots, leur attribut 'dejaUtilise' (voir './Mot.py')
+        Reset all cache from each word
         """
         for i in range(len(self.words)):
             self.words[i].delete_cache()
-    
 
     def speak(self) -> str:
         """
-            Generate a text
+        Generate a text
 
-            Return
-            ------
-            text: str
-                generated text
+        Return
+        ------
+        text: str
+            generated text
         """
         assert self.nbSentences != 0, "Phrasaton speak only after the user."
         assert len(self.words) > 6, "No words are actually known!"
@@ -103,7 +100,7 @@ class Dico:
         gv = global_value.GlobalValue()
 
         while nb < self.nbSentences:
-            
+
             after = self.words[current].next_word()
             text += self.words[after].value
 
@@ -114,16 +111,15 @@ class Dico:
 
         self.reset_cache()
         return text
-    
 
     def learn(self, texte: tuple) -> None:
         """
-            Save a whole text in the database
+        Save a whole text in the database
 
-            Parameter
-            ---------
-            text: str
-                Text that need to be saved
+        Parameter
+        ---------
+        text: str
+            Text that need to be saved
         """
         # counting the sentences
         self.nbSentences = 0
@@ -132,11 +128,13 @@ class Dico:
             if punct in gv.end_sent_str():
                 self.nbSentences += 1
 
-        assert texte[-1] in gv.end_sent_str(), "This sentence don't end with a valid punctuation."
+        assert (
+            texte[-1] in gv.end_sent_str()
+        ), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
         for punctuation in gv.end_sent_str():
             self.add_occurrence(punctuation, texte[0])
 
         for index in range(len(texte[1:])):
-            self.add_occurrence(texte[index], texte[index+1])
+            self.add_occurrence(texte[index], texte[index + 1])

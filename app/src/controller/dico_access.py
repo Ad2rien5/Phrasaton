@@ -1,11 +1,13 @@
-from model.dico import Dico
 import model.global_value as global_value
+from model.dico import Dico
+
 
 class DicoAccess:
     """
     This class serve as an intermediate to the model so the architecture use MVC design pattern.
     The use of this class will be improved with the addition of a save/load system.
     """
+
     def __init__(self):
         """
         Save the instance of the dico that will be used by the user
@@ -54,17 +56,17 @@ class DicoAccess:
 
     def _purge_bad_char(self, word: str) -> str:
         """
-            Remove all non-authorize char
+        Remove all non-authorize char
 
-            Parameter
-            ---------
-            word: str
-                word to check
+        Parameter
+        ---------
+        word: str
+            word to check
 
-            Return
-            ------
-            word: str
-                same word but without any non-authorize char
+        Return
+        ------
+        word: str
+            same word but without any non-authorize char
         """
         assert type(word) == str, "word is not a string"
 
@@ -72,55 +74,58 @@ class DicoAccess:
 
         for chara in bad_char:
             while chara in word:
-                assert len(
-                    word) > 1, f"CharacterError: a forbidden character have been found! PLease do not use '{word}' anymore."
+                assert (
+                    len(word) > 1
+                ), f"CharacterError: a forbidden character have been found! PLease do not use '{word}' anymore."
                 word = str(list(word).pop(list(word).index(chara)))
 
         return word
 
     def _punctuation(self, word: str) -> tuple:
         """
-            Remove the punctuation at the end of a word
+        Remove the punctuation at the end of a word
 
-            Parameter
-            ---------
-            word: str
-                word that contains a punctuation
+        Parameter
+        ---------
+        word: str
+            word that contains a punctuation
 
-            Return
-            ------
-            word: str
-                word without punctuation
+        Return
+        ------
+        word: str
+            word without punctuation
 
-            punctuation: str
-                the punctuation that was at the end of the word
+        punctuation: str
+            the punctuation that was at the end of the word
         """
         assert type(word) == str, "word is not a string"
-        assert word[-1] in global_value.GlobalValue().PUNCTUATION, "This word doesn't contain any punctuation."
+        assert (
+            word[-1] in global_value.GlobalValue().PUNCTUATION
+        ), "This word doesn't contain any punctuation."
 
         return word[:-1], word[-1]
 
     def _detection(self, word: str, nb_paren: int) -> tuple:
         """
-            Assure that the word is correct and can be added to the database.
-            In addition to the word, it can also return a punctuation
+        Assure that the word is correct and can be added to the database.
+        In addition to the word, it can also return a punctuation
 
-            Parameter
-            ---------
-            word: str
-                word that need to be verified
+        Parameter
+        ---------
+        word: str
+            word that need to be verified
 
-            nb_paren: int
-                number of opening parenthesis found
+        nb_paren: int
+            number of opening parenthesis found
 
-            Return
-            ------
-            nb_paren: int
-                number of opening parenthesis found
-            verified: str
-                word cleansed of any unwanted character
-            punctuation: ?str
-                possible punctuation
+        Return
+        ------
+        nb_paren: int
+            number of opening parenthesis found
+        verified: str
+            word cleansed of any unwanted character
+        punctuation: ?str
+            possible punctuation
         """
         verified = word
         gv = global_value.GlobalValue()
@@ -149,17 +154,17 @@ class DicoAccess:
 
     def mass_cleaning(self, text: str) -> list:
         """
-            Format a text for it to be ready to be saved in the database
+        Format a text for it to be ready to be saved in the database
 
-            Parameter
-            ---------
-            text: str
-                text that need to be formated
+        Parameter
+        ---------
+        text: str
+            text that need to be formated
 
-            Return
-            ------
-            formated: list<str>
-                text cleanse and formatted in the format of a list of string
+        Return
+        ------
+        formated: list<str>
+            text cleanse and formatted in the format of a list of string
         """
         nb_parenthesis = 0
 
