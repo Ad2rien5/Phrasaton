@@ -2,23 +2,18 @@
 
 ## Description
 
-As part of my ongoing exploration of computer science, I set about developing a 
-ChatBot using Python, but with a different different approach. Unlike 
-conventional methods, which often often rely on specialised artificial 
-intelligence libraries such as SciPy, I decided to take up the challenge and 
-develop my own from scratch.
+As part of my ongoing exploration of computer science, I set about 
+developing a ChatBot using Python, but with a different different approach. Unlike conventional methods, which often often rely on specialised 
+artificial intelligence libraries such as SciPy, I decided to take up the challenge and develop my own from scratch.
 
 For me, this project represents a stimulating opportunity to explore new 
-approaches in the field of artificial intelligence and to put my apply my 
-programming skills. I'm looking forward to its further development and share my 
-progress!
+new approaches in the field of artificial intelligence and to put my 
+apply my programming skills. I'm looking forward to 
+its further development and share my progress!
 
 ## Usage
 
-To use this program, you need to complete several steps. Firstly, you need to 
-install the necessary dependencies. These dependencies are written in the 
-*requirement.txt* file. Next, you need to show Python where the various 
-Phrasaton modules are located. Finally, you need to run the main.py file.
+To use this program, you need to complete several steps. Firstly, you need to install the necessary dependencies. These dependencies are written in the *requirement.txt* file. Next, you need to show Python where the various Phrasaton modules are located. Finally, you need to run the main.py file.
 
 To do all this, you can use these commands :
 
@@ -32,10 +27,8 @@ python3 app/src/__main__.py
 
 ### Python
 
-This language will be used throughout the project, on both the frontend and the 
-backend.  
-I chose this language for its flexibility, and also because it has always 
-inspired me a lot and I love discovering new ways of using it.
+This language will be used throughout the project, on both the frontend and the backend.
+I chose this language for its flexibility, and also because it has always inspired me a lot and I love discovering new ways of using it.
 
 ### Tkinter
 
@@ -51,8 +44,7 @@ This library is used to create interfaces simply and efficiently.
 
 ### 1.1
 - implemente tests
-	- from this version onwards, each new feature will necessarily be 
-  accompanied by multiple tests
+	- from this version onwards, each new feature will necessarily be accompanied by multiple tests
 
 ### 1.2
 - have a command to retrieve the current database in Json format
@@ -162,7 +154,7 @@ format Json
  - voir si une architecture des données sous forme d'arbre rend ça plus 
 puissant
  - utilise les **deux** mots précédents pour trouver le suivant
- - implémentation de la notion de *sujet*
+ - implémentation de la notion de sujet
  - implémentation d'un trie des données pour les ranger
 
 ## Terme d'utilisation  
