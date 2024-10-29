@@ -1,4 +1,5 @@
-# Phrasaton
+# Phrasaton  
+*v1.0*
 
 ## Description
 
@@ -44,7 +45,7 @@ This library is used to create interfaces simply and efficiently.
 ## List of advances and future features
 
 ### 1.0
-- be functional (current version)
+- be functional  
 	- uses **one** previous word to find the next one
 	- simple, usable interface
 	- can recognise if a sentence is incorrectly formed
@@ -86,7 +87,8 @@ Séac'h Adrien
 
 ---
 
-# Phrasaton
+# Phrasaton  
+*v1.0*
 
 ## Description
 Dans le cadre de mon exploration continue dans le domaine de l'informatique, 
