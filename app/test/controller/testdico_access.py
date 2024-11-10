@@ -1,6 +1,10 @@
 import src.controller.dico_access as dico_access
+import unittest
 
-class TestDicoAccess:
+class TestDicoAccess(unittest.TestCase):
 
-    def __init__(self):
-        dico_access = dico_access.DicoAccess()
+    def test_purge_bad_char(self):
+        pass
+
+    def test_punctuation(self):
+        pass
