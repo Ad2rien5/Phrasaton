@@ -27,11 +27,21 @@ class TestWord(unittest.TestCase):
         self.test_word.is_end(0)
         self.assertEqual(self.test_word._next, [[0, -1]])
 
-    def test_delete_cache(self):
-        pass
-
     def test_next_word(self):
-        pass
+        with self.assertRaises(AssertionError):
+            self.test_word.next_word()
+
+        self.test_word.add_word(0)
+        self.test_word.add_word(1)
+        self.test_word.add_word(1)
+        self.test_word.add_word(2)
+
+        oracle = [1, 0, 2]
+        test = [self.test_word.next_word() for _ in range(3)]
+        self.assertEqual(test, oracle)
+
+        self.assertEqual(self.test_word.next_word(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
