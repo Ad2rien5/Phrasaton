@@ -1,4 +1,4 @@
-import src.controller.dico_access as dico_access
+import app.src.controller.dico_access as dico_access
 import unittest
 
 class TestDicoAccess(unittest.TestCase):

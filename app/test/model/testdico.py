@@ -1,4 +1,4 @@
-import src.model.dico as dico
+import app.src.model.dico as dico
 import unittest
 
 class TestDico(unittest.TestCase):

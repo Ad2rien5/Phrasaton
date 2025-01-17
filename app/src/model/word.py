@@ -57,7 +57,7 @@ class Word:
         chosen_one: int
             index of the next word in the dictionary
         """
-        assert len(self._next) > 1, f"Can't ask a word for next when he has no next {self.value}"
+        assert len(self._next) > 0, f"Can't ask a word for next when he has no next {self.value}"
         chosen_one = [None, 0]
 
         for element in self._next:

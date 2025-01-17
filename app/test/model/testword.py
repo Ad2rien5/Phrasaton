@@ -1,4 +1,4 @@
-import src.model.word as word
+import app.src.model.word as word
 import unittest
 
 class TestWord(unittest.TestCase):

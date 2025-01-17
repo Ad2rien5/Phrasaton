@@ -1,2 +1,2 @@
 tk==0.1.0
-setuptools
+setuptools>=40.8.0
