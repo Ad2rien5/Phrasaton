@@ -1,5 +1,5 @@
-import model.global_value as global_value
-from model.dico import Dico
+import app.src.model.global_value as global_value
+from app.src.model.dico import Dico
 
 
 class DicoAccess:

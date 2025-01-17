@@ -1,5 +1,5 @@
-import model.global_value as global_value
-import model.word as word
+import app.src.model.global_value as global_value
+import app.src.model.word as word
 
 
 class Dico:

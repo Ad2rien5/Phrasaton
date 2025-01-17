@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
-from controller.dico_access import DicoAccess
+from app.src.controller.dico_access import DicoAccess
 
 
 class Chatterbox:
