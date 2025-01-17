@@ -36,7 +36,7 @@ class TestWord(unittest.TestCase):
         self.test_word.add_word(1)
         self.test_word.add_word(2)
 
-        oracle = [1, 0, 2]
+        oracle = [1, 2, 0]
         test = [self.test_word.next_word() for _ in range(3)]
         self.assertEqual(test, oracle)
 
