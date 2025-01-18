@@ -21,11 +21,11 @@ class Dico:
         self.nbSentences = 0
 
         # initialisation de la base de donnée
-        gv = global_value.GlobalValue()
-        self.words = [word.Word(element) for element in gv.PUNCTUATION]
+        self.gv = global_value.GlobalValue()
+        self.words = [word.Word(element) for element in self.gv.PUNCTUATION]
         self.words.append(word.Word("leer"))
-        for index in gv.SENTENCE_END:
-            self.words[index].is_end(6)
+        for index in self.gv.SENTENCE_END:
+            self.words[index].is_end(self.gv.get_index_leer())
 
     def find(self, value: str) -> int:
         """
@@ -97,14 +97,13 @@ class Dico:
         current = 3
         nb = 0
         text = ""
-        gv = global_value.GlobalValue()
 
         while nb < self.nbSentences:
 
             after = self.words[current].next_word()
             text += self.words[after].value
 
-            if self.words[after].value in gv.end_sent_str():
+            if self.words[after].value in self.gv.end_sent_str():
                 nb += 1
 
             current = after
@@ -123,17 +122,17 @@ class Dico:
         """
         # counting the sentences
         self.nbSentences = 0
-        gv = global_value.GlobalValue()
+        
         for punct in texte:
-            if punct in gv.end_sent_str():
+            if punct in self.gv.end_sent_str():
                 self.nbSentences += 1
 
         assert (
-            texte[-1] in gv.end_sent_str()
+            texte[-1] in self.gv.end_sent_str()
         ), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
-        for punctuation in gv.end_sent_str():
+        for punctuation in self.gv.end_sent_str():
             self.add_occurrence(punctuation, texte[0])
 
         for index in range(len(texte[1:])):

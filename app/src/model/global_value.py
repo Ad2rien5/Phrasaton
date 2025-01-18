@@ -38,3 +38,12 @@ class GlobalValue:
         Return a list of the value of 'self.SENTENCE_END' but in str type.
         """
         return [self.PUNCTUATION[i] for i in self.SENTENCE_END]
+    
+    def get_index_leer(self):
+        """
+        Return the index of the leer word.
+
+        This method have been created to prevent modifying a the dico class
+        when a new punctuation is added here.
+        """
+        return len(self.PUNCTUATION)
