@@ -43,9 +43,44 @@ class TestDico(unittest.TestCase):
         self.assertEqual(self.gv.get_index_leer()+1, self.dico.find("test"))
 
 
-
     def test_add_occurence(self):
-        pass
+        # assertion
+        with self.assertRaises(AssertionError):
+            self.dico.add_occurrence(453, "test")
+
+        with self.assertRaises(AssertionError):
+            self.dico.add_occurrence("test", 64)
+
+        # two words unknowned
+        self.dico.add_occurrence("a", "b")
+        testa = self.dico.words[len(self.gv.PUNCTUATION)+1]
+        testb = self.dico.words[len(self.gv.PUNCTUATION)+2]
+
+        self.assertEqual("a", testa.value)
+        self.assertEqual([[len(self.gv.PUNCTUATION)+2, 1]], testa._next)
+        self.assertEqual("b", testb.value)
+
+        # one unknowned word
+        self.dico.add_occurrence("a", "c")
+        testb = self.dico.words[len(self.gv.PUNCTUATION)+3]
+
+        self.assertEqual(
+            [[len(self.gv.PUNCTUATION)+2, 1], [len(self.gv.PUNCTUATION)+3, 1]],
+            testa._next
+        )
+        self.assertEqual("c", testb.value) 
+
+        self.dico.add_occurrence("d", "a")
+        testb = self.dico.words[len(self.gv.PUNCTUATION)+4]
+
+        self.assertEqual([[len(self.gv.PUNCTUATION)+1, 1]], testa._next)
+        self.assertEqual("d", testb.value) 
+
+        # two knowned
+        self.dico.add_occurrence("d", "a")
+
+        self.assertEqual([[len(self.gv.PUNCTUATION)+1, 2]], testa._next)
+        self.assertEqual("d", testb.value) 
 
     def test_reset_cache(self):
         pass
