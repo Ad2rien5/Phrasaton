@@ -82,9 +82,6 @@ class TestDico(unittest.TestCase):
         self.assertEqual([[len(self.gv.PUNCTUATION)+1, 2]], testa._next)
         self.assertEqual("d", testb.value) 
 
-    def test_reset_cache(self):
-        pass
-
     def test_speak(self):
         pass
 
