@@ -86,4 +86,11 @@ class TestDico(unittest.TestCase):
         pass
 
     def test_learn(self):
-        pass
+        # sentence badly ended
+        for punc in self.gv.PUNCTUATION:
+            test = f"Ha{punc}"
+
+            try:
+                self.dico.learn(test)
+            except AssertionError as err:
+                self.assertNotEqual("This sentence don't end with a valid punctuation.", str(err))
