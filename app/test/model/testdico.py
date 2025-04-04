@@ -87,10 +87,14 @@ class TestDico(unittest.TestCase):
 
     def test_learn(self):
         # sentence badly ended
-        for punc in self.gv.PUNCTUATION:
-            test = f"Ha{punc}"
+        for punc in len(self.gv.PUNCTUATION):
+            test = f"Ha{self.gv.PUNCTUATION[punc]}"
 
             try:
                 self.dico.learn(test)
             except AssertionError as err:
-                self.assertNotEqual("This sentence don't end with a valid punctuation.", str(err))
+                self.assertTrue(
+                    punc in self.gv.SENTENCE_END, 
+                    f"'{self.gv.PUNCTUATION[punc]}' is a valid ending punctuation, but throw '{err}'"
+                )
+        
