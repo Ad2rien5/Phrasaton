@@ -93,8 +93,19 @@ class TestDico(unittest.TestCase):
             try:
                 self.dico.learn(test)
             except AssertionError as err:
-                self.assertTrue(
+                self.assertFalse(
                     punc in self.gv.SENTENCE_END, 
                     f"'{self.gv.PUNCTUATION[punc]}' is a valid ending punctuation, but throw '{err}'"
                 )
+        
+        # word correctly added in the dictionnary
+        index = self.dico.find("Ha")
+
+        self.assertNotEqual(-1, index, "Failed to save word properly.")
+        self.assertEqual(
+            3, 
+            len(self.dico.words[index]._next),
+            "Failed to save word properly."
+        )
+
         
