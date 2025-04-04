@@ -88,7 +88,7 @@ class TestDico(unittest.TestCase):
     def test_learn(self):
         # sentence badly ended
         for punc in len(self.gv.PUNCTUATION):
-            test = f"Ha{self.gv.PUNCTUATION[punc]}"
+            test = ("Ha", self.gv.PUNCTUATION[punc])
 
             try:
                 self.dico.learn(test)
@@ -108,4 +108,18 @@ class TestDico(unittest.TestCase):
             "Failed to save word properly."
         )
 
+    def test_learn2(self):
+        sentence = ("This", "sentence", "is", "a", "test", ".", "It", "ensure", "the", "correct", "working", "of", "the", "programm", ".")
+        self.dico.learn(sentence)
+        oracle = {
+            "This": [leer+2, 1],
+        }
+        leer = self.gv.get_index_leer()
+
+        for punc in self.gv.PUNCTUATION:
+            
+            if punc == ".":
+                oracle['.'] = [[leer, -1], [leer+1, 1], [leer+6, 1]]
+            else:
+                oracle[punc] = [[leer, -1], [leer+1, 1]]
         
