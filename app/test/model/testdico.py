@@ -83,8 +83,6 @@ class TestDico(unittest.TestCase):
         self.assertEqual([[len(self.gv.PUNCTUATION)+1, 2]], testb._next)
         self.assertEqual("d", testb.value) 
 
-    def test_speak(self):
-        pass
 
     def test_learn(self):
         # sentence badly ended
@@ -145,3 +143,29 @@ class TestDico(unittest.TestCase):
 
         for element in self.dico.words:
             self.assertEqual(oracle[element.value], element._next, f"'{element.value}' failed")
+
+
+
+    def test_speak(self):
+        # test the assertion
+        with self.assertRaises(AssertionError):
+            test = self.dico.speak()
+
+        self.dico.nbSentences = 1
+        with self.assertRaises(AssertionError):
+            test = self.dico.speak()
+        
+        # test a real case
+        self.dico.learn((" This", " sentence", " is", " a", " test", ".", " It", " ensure", " the", " correct", " working", " of", " the", " programm", "."))
+        oracle = " This sentence is a test."
+        
+        self.dico.nbSentences = 1
+        test = self.dico.speak()
+        self.assertEqual(oracle, test)
+
+        self.dico.nbSentences = 2
+        oracle = " This sentence is a test. It ensure the correct working of the programm."
+        test = self.dico.speak()
+        self.assertEqual(oracle, test)
+
+        
