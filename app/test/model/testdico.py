@@ -110,10 +110,11 @@ class TestDico(unittest.TestCase):
         )
 
     def test_learn2(self):
-        return
+        # set-up
+        leer = self.gv.get_index_leer()
         sentence = ("This", "sentence", "is", "a", "test", ".", "It", "ensure", "the", "correct", "working", "of", "the", "programm", ".")
-        self.dico.learn(sentence)
         oracle = {
+            "leer": [],
             "This": [[leer+2, 1]],
             "sentence": [[leer+3, 1]],
             "is": [[leer+4, 1]],
@@ -121,13 +122,26 @@ class TestDico(unittest.TestCase):
             "test": [[3, 1]],
             "It": [[leer+7, 1]],
             "ensure": [[leer+8, 1]],
+            "the": [[leer+9, 1], [leer+12, 1]],
+            "correct": [[leer+10, 1]],
+            "working": [[leer+11, 1]],
+            "of": [[leer+8, 1]],
+            "programm": [[3, 1]]
         }
-        leer = self.gv.get_index_leer()
+
+        stc_end = self.gv.end_sent_str()
 
         for punc in self.gv.PUNCTUATION:
             
             if punc == ".":
                 oracle['.'] = [[leer, -1], [leer+1, 1], [leer+6, 1]]
-            else:
+            elif punc in stc_end:
                 oracle[punc] = [[leer, -1], [leer+1, 1]]
+            else:
+                oracle[punc] = []
         
+        # test
+        self.dico.learn(sentence)
+
+        for element in self.dico.words:
+            self.assertEqual(oracle[element.value], element._next, f"'{element.value}' failed")
