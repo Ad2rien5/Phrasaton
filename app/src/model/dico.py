@@ -92,7 +92,7 @@ class Dico:
         text: str
             generated text
         """
-        assert self.nbSentences != 0, "Phrasaton speak only after the user."
+        assert self.nbSentences > 0, "Phrasaton speak only after the user."
         assert len(self.words) > 6, "No words are actually known!"
         current = 3
         nb = 0
