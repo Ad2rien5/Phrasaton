@@ -144,6 +144,7 @@ class DicoAccess:
         for chara in gv.BAD_CHAR:
             if chara in verified:
                 verified = self._purge_bad_char(verified)
+                break
 
         for chara2 in gv.PUNCTUATION:
             if chara2 in verified:
