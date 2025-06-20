@@ -1,14 +1,66 @@
+import random
+import string
+
 import app.src.controller.dico_access as dico_access
 import unittest
 
+from app.src.model import global_value
+
+
 class TestDicoAccess(unittest.TestCase):
 
-    def test_purge_bad_char(self):
+    def setUp(self):
+        self.dico_access = dico_access.DicoAccess()
+        self.gv = global_value.GlobalValue()
+
+    def test_purge_bad_char1(self):
+        """
+        Case
+        ____
+        Word without any bad character
+        """
         #TODO
         # - mot sans problème (change pas)
         # - un cas par char problématique
         # - un char qui est problématique (assert catch)
-        pass
+        test = self.dico_access._purge_bad_char("test")
+        self.assertEqual("test", test, f"test != {test}")
+
+        # test with a special character
+        test = self.dico_access._purge_bad_char("champêtre")
+        self.assertEqual("champêtre", test, f"champêtre != {test}")
+
+    def test_purge_bad_char2(self):
+        """
+        Case
+        ----
+        Word containing a bad character
+        """
+        for char in self.gv.BAD_CHAR:
+            word = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+            i = random.randint(1, len(word))
+            word = word[:i] + char + word[i:]
+            oracle = word.replace(char, "")
+            test = self.dico_access._purge_bad_char(word)
+
+            self.assertEqual(
+                oracle,
+                test,
+                f"{oracle} != {test}"
+            )
+
+    def test_purge_bad_char3(self):
+        """
+        Case
+        ----
+        Only one bad character
+        """
+        for char in self.gv.BAD_CHAR:
+            with self.assertRaises(AssertionError):
+                self.dico_access._purge_bad_char(char)
 
     def test_punctuation(self):
         #TODO

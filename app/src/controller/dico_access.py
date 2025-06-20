@@ -68,16 +68,13 @@ class DicoAccess:
         word: str
             same word but without any non-authorize char
         """
-        assert type(word) == str, "word is not a string"
-
         bad_char = global_value.GlobalValue().BAD_CHAR
-
         for chara in bad_char:
             while chara in word:
                 assert (
                     len(word) > 1
                 ), f"CharacterError: a forbidden character have been found! PLease do not use '{word}' anymore."
-                word = str(list(word).pop(list(word).index(chara)))
+                word = word.replace(chara, "")
 
         return word
 
