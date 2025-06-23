@@ -95,7 +95,6 @@ class DicoAccess:
         punctuation: str
             the punctuation that was at the end of the word
         """
-        assert type(word) == str, "word is not a string"
         assert (
             word[-1] in global_value.GlobalValue().PUNCTUATION
         ), "This word doesn't contain any punctuation."

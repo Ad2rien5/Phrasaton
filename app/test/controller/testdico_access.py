@@ -19,10 +19,6 @@ class TestDicoAccess(unittest.TestCase):
         ____
         Word without any bad character
         """
-        #TODO
-        # - mot sans problème (change pas)
-        # - un cas par char problématique
-        # - un char qui est problématique (assert catch)
         test = self.dico_access._purge_bad_char("test")
         self.assertEqual("test", test, f"test != {test}")
 
@@ -62,11 +58,29 @@ class TestDicoAccess(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 self.dico_access._purge_bad_char(char)
 
-    def test_punctuation(self):
-        #TODO
-        # - un cas par signe de ponctuation
-        # - sans signe de ponctuation (assert)
-        pass
+    def test_punctuation1(self):
+        for char in self.gv.PUNCTUATION:
+            word = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            ) + char
+
+            oracle = (word[:-1], char)
+
+            self.assertEqual(oracle, self.dico_access._punctuation(word))
+
+    def test_punctuation2(self):
+        i = 0
+        while i < 100:
+            word = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+
+            with self.assertRaises(AssertionError):
+                self.dico_access._punctuation(word)
+
+            i += 1
 
     def test_detection(self):
         #TODO
