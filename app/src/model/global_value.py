@@ -27,7 +27,9 @@ class GlobalValue:
             "\\",
             "_",
             "卐",
-        ]  # il faudra rajouter les << et >>
+            "»",
+            "«"
+        ]
         self.PARENTHESIS_START = ["(", "{", "["]
         self.PARENTHESIS_END = [")", "}", "]"]
         self.PUNCTUATION = ["?", ",", ";", ".", ":", "!"]
@@ -43,7 +45,7 @@ class GlobalValue:
         """
         Return the index of the leer word.
 
-        This method have been created to prevent modifying a the dico class
+        This method have been created to prevent modifying a dico class
         when a new punctuation is added here.
         """
         return len(self.PUNCTUATION)

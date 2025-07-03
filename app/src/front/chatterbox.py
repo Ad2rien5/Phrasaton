@@ -85,7 +85,7 @@ class Chatterbox:
         """
         Loophole for the application to work.
         """
-        # Capture de la touche "Enter" pour traiter la commande
+        # Listen for the user to press <enter> to process the prompt
         self.window.bind("<Return>", lambda event: self.process_command())
         self.window.mainloop()
 

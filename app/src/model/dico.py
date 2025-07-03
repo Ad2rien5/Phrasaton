@@ -42,7 +42,6 @@ class Dico:
             index of the word inside the dictionary
             return -1 if the word isn't find
         """
-        assert type(value) == str, "value is not a string"
         for i in range(len(self.words)):
             if self.words[i].value == value:
                 return i
@@ -60,9 +59,6 @@ class Dico:
         after: str
             the occurrence
         """
-        assert type(actual) == str, "actual is not a string"
-        assert type(after) == str, "next is not a string"
-
         index1 = self.find(actual)
         if index1 == -1:
             self.words.append(word.Word(actual))
@@ -77,7 +73,6 @@ class Dico:
 
     def reset_cache(self) -> None:
         """
-        Méthode qui va permettre de réinitialiser pour tous les mots, leur attribut 'dejaUtilise' (voir './Mot.py')
         Reset all cache from each word
         """
         for i in range(len(self.words)):
@@ -111,7 +106,7 @@ class Dico:
         self.reset_cache()
         return text
 
-    def learn(self, texte: tuple) -> None:
+    def learn(self, text: tuple) -> None:
         """
         Save a whole text in the database
 
@@ -123,17 +118,17 @@ class Dico:
         # counting the sentences
         self.nbSentences = 0
         
-        for punct in texte:
+        for punct in text:
             if punct in self.gv.end_sent_str():
                 self.nbSentences += 1
 
         assert (
-            texte[-1] in self.gv.end_sent_str()
+            text[-1] in self.gv.end_sent_str()
         ), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
         for punctuation in self.gv.end_sent_str():
-            self.add_occurrence(punctuation, texte[0])
+            self.add_occurrence(punctuation, text[0])
 
-        for index in range(len(texte[1:])):
-            self.add_occurrence(texte[index], texte[index + 1])
+        for index in range(len(text[1:])):
+            self.add_occurrence(text[index], text[index + 1])
