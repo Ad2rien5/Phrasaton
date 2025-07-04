@@ -70,8 +70,7 @@ class TestDicoAccess(unittest.TestCase):
             self.assertEqual(oracle, self.dico_access._punctuation(word))
 
     def test_punctuation2(self):
-        i = 0
-        while i < 100:
+        for _ in range(100):
             word = "".join(
                 random.choice(string.ascii_letters)
                 for _ in range(random.randint(5, 15))
@@ -80,16 +79,14 @@ class TestDicoAccess(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 self.dico_access._punctuation(word)
 
-            i += 1
+    def test_detection1(self):
+        test = self.dico_access._detection("test", 0)
+        oracle = ("test", 0, None)
 
-    def test_detection(self):
+        self.assertEqual(oracle, test)
+
         #TODO
-        # - implémentation de purge_bad_char
         # - parenthèse ouvrante
         # - parenthèse fermante
         pass
 
-    def test_mass_cleaning(self):
-        #TODO
-        # - test de juste plusieurs phrases dont certaines avec parenthèses
-        pass
