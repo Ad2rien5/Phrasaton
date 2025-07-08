@@ -2,137 +2,6 @@ import app.src.model.global_value as global_value
 from app.src.model.dico import Dico
 
 
-def _purge_bad_char(word: str) -> str:
-    """
-    Remove all non-authorize char
-
-    Parameter
-    ---------
-    word: str
-        word to check
-
-    Return
-    ------
-    word: str
-        same word but without any non-authorize char
-    """
-    bad_char = global_value.GlobalValue().BAD_CHAR
-    for chara in bad_char:
-        while chara in word:
-            assert (
-                len(word) > 1
-            ), f"CharacterError: a forbidden character have been found! PLease do not use '{word}' anymore."
-            word = word.replace(chara, "")
-
-    return word
-
-
-def _punctuation(word: str) -> tuple:
-    """
-    Remove the punctuation at the end of a word
-
-    Parameter
-    ---------
-    word: str
-        word that contains a punctuation
-
-    Return
-    ------
-    word: str
-        word without punctuation
-
-    punctuation: str
-        the punctuation that was at the end of the word
-    """
-    assert (
-        word[-1] in global_value.GlobalValue().PUNCTUATION
-    ), "This word doesn't contain any punctuation."
-
-    return word[:-1], word[-1]
-
-
-def _detection(word: str, nb_paren: int) -> tuple:
-    """
-    Assure that the word is correct and can be added to the database.
-    In addition to the word, it can also return a punctuation
-
-    Parameter
-    ---------
-    word: str
-        word that need to be verified
-
-    nb_paren: int
-        number of opening parenthesis found
-
-    Return
-    ------
-    nb_paren: int
-        number of opening parenthesis found
-    verified: str
-        word cleansed of any unwanted character
-    punctuation: ?str
-        possible punctuation
-    """
-    verified = word
-    gv = global_value.GlobalValue()
-
-    for start in gv.PARENTHESIS_START:
-        if start in verified:
-            nb_paren += 1
-
-    for end in gv.PARENTHESIS_END:
-        if end in verified:
-            nb_paren -= 1
-
-    if nb_paren < 0:
-        return nb_paren, None, None
-
-    for chara in gv.BAD_CHAR:
-        if chara in verified:
-            verified = _purge_bad_char(verified)
-            break
-
-    for chara2 in gv.PUNCTUATION:
-        if chara2 in verified:
-            result = _punctuation(verified)
-            return nb_paren, result[0], result[1]
-
-    return nb_paren, verified, None
-
-
-def _mass_cleaning(text: str) -> list:
-    """
-    Format a text for it to be ready to be saved in the database
-
-    Parameter
-    ---------
-    text: str
-        text that need to be formated
-
-    Return
-    ------
-    formated: list<str>
-        text cleanse and formatted in the format of a list of string
-    """
-    nb_parenthesis = 0
-
-    text = text.split(" ")
-    formated = []
-
-    for word in text:
-        test = _detection(word, nb_parenthesis)
-        nb_parenthesis = test[0]
-
-        if test[1] is not None:
-            # the space is added to allow words to be separate when the bot will talk
-            formated.append(" " + test[1])
-
-            if test[2] is not None:
-                formated.append(test[2])
-
-    return formated
-
-
 class DicoAccess:
     """
     This class serve as an intermediate to the model so the architecture use MVC design pattern.
@@ -144,6 +13,133 @@ class DicoAccess:
         Save the instance of the dico that will be used by the user
         """
         self.dico = Dico()
+
+    def _purge_bad_char(self, word: str) -> str:
+        """
+        Remove all non-authorize char
+
+        Parameter
+        ---------
+        word: str
+            word to check
+
+        Return
+        ------
+        word: str
+            same word but without any non-authorize char
+        """
+        bad_char = global_value.GlobalValue().BAD_CHAR
+        for chara in bad_char:
+            while chara in word:
+                assert (
+                        len(word) > 1
+                ), f"CharacterError: a forbidden character have been found! PLease do not use '{word}' anymore."
+                word = word.replace(chara, "")
+
+        return word
+
+    def _punctuation(self, word: str) -> tuple:
+        """
+        Remove the punctuation at the end of a word
+
+        Parameter
+        ---------
+        word: str
+            word that contains a punctuation
+
+        Return
+        ------
+        word: str
+            word without punctuation
+
+        punctuation: str
+            the punctuation that was at the end of the word
+        """
+        assert (
+                word[-1] in global_value.GlobalValue().PUNCTUATION
+        ), "This word doesn't contain any punctuation."
+
+        return word[:-1], word[-1]
+
+    def _detection(self, word: str, nb_paren: int) -> tuple:
+        """
+        Assure that the word is correct and can be added to the database.
+        In addition to the word, it can also return a punctuation
+
+        Parameter
+        ---------
+        word: str
+            word that need to be verified
+
+        nb_paren: int
+            number of opening parenthesis found
+
+        Return
+        ------
+        nb_paren: int
+            number of opening parenthesis found
+        verified: str
+            word cleansed of any unwanted character
+        punctuation: ?str
+            possible punctuation
+        """
+        verified = word
+        gv = global_value.GlobalValue()
+
+        for start in gv.PARENTHESIS_START:
+            if start in verified:
+                nb_paren += 1
+
+        for end in gv.PARENTHESIS_END:
+            if end in verified:
+                nb_paren -= 1
+
+        if nb_paren < 0:
+            return nb_paren, None, None
+
+        for chara in gv.BAD_CHAR:
+            if chara in verified:
+                verified = self._purge_bad_char(verified)
+                break
+
+        for chara2 in gv.PUNCTUATION:
+            if chara2 in verified:
+                result = self._punctuation(verified)
+                return nb_paren, result[0], result[1]
+
+        return nb_paren, verified, None
+
+    def _mass_cleaning(self, text: str) -> list:
+        """
+        Format a text for it to be ready to be saved in the database
+
+        Parameter
+        ---------
+        text: str
+            text that need to be formated
+
+        Return
+        ------
+        formated: list<str>
+            text cleanse and formatted in the format of a list of string
+        """
+        nb_parenthesis = 0
+
+        text = text.split(" ")
+        formated = []
+
+        for word in text:
+            test = self._detection(word, nb_parenthesis)
+            nb_parenthesis = test[0]
+
+            if test[1] is not None:
+                # the space is added to allow words to be separate when the bot will talk
+                formated.append(" " + test[1])
+
+                if test[2] is not None:
+                    formated.append(test[2])
+
+        return formated
 
     def save_dico_data(self, command: str):
         """
@@ -161,7 +157,7 @@ class DicoAccess:
             return "None" if no error occur
         """
         try:
-            clean_text = tuple(_mass_cleaning(command))
+            clean_text = tuple(self._mass_cleaning(command))
             self.dico.learn(clean_text)
         except AssertionError as err:
             return f"LearningError: {err}"

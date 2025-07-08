@@ -81,12 +81,36 @@ class TestDicoAccess(unittest.TestCase):
 
     def test_detection1(self):
         test = self.dico_access._detection("test", 0)
-        oracle = ("test", 0, None)
+        oracle = (0, "test", None)
 
         self.assertEqual(oracle, test)
 
         #TODO
         # - parenthèse ouvrante
         # - parenthèse fermante
-        pass
+
+    def test_detection_parenthesis_open(self):
+        # at the start
+        nb_start = random.randint(1, 10)
+        nb_parenthesis = random.randint(1, 5)
+        mot = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+        test = self.dico_access._detection("("*nb_parenthesis + mot, nb_start)
+        oracle = (nb_start+nb_parenthesis, mot, None)
+        self.assertEqual(oracle, test)
+
+        # at the end
+        nb_start = random.randint(1, 10)
+        nb_parenthesis = random.randint(1, 5)
+        mot = "".join(
+            random.choice(string.ascii_letters)
+            for _ in range(random.randint(5, 15))
+        )
+        test = self.dico_access._detection(mot + "("*nb_parenthesis, nb_start)
+        oracle = (nb_start + nb_parenthesis, mot, None)
+        self.assertEqual(oracle, test)
+
+        # in the middle
 
