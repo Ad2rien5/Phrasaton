@@ -20,11 +20,11 @@ class TestDicoAccess(unittest.TestCase):
         Word without any bad character
         """
         test = self.dico_access._purge_bad_char("test")
-        self.assertEqual("test", test, f"test != {test}")
+        self.assertEqual(test, "test", f"test != {test}")
 
         # test with a special character
         test = self.dico_access._purge_bad_char("champêtre")
-        self.assertEqual("champêtre", test, f"champêtre != {test}")
+        self.assertEqual(test, "champêtre", f"champêtre != {test}")
 
     def test_purge_bad_char2(self):
         """
@@ -43,8 +43,8 @@ class TestDicoAccess(unittest.TestCase):
             test = self.dico_access._purge_bad_char(word)
 
             self.assertEqual(
-                oracle,
                 test,
+                oracle,
                 f"{oracle} != {test}"
             )
 
@@ -67,7 +67,7 @@ class TestDicoAccess(unittest.TestCase):
 
             oracle = (word[:-1], char)
 
-            self.assertEqual(oracle, self.dico_access._punctuation(word))
+            self.assertEqual(self.dico_access._punctuation(word), oracle)
 
     def test_punctuation2(self):
         for _ in range(100):

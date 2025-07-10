@@ -18,14 +18,14 @@ class TestDico(unittest.TestCase):
             self.dico.words[i].value for i in range(len(self.dico.words))
         ]
 
-        self.assertEqual(oracle, test)
+        self.assertEqual(test, oracle)
 
         for nb in self.gv.SENTENCE_END:
             self.assertEqual(self.dico.words[nb]._next, [[6, -1]])
 
     def test_find(self):
         # not find
-        self.assertEqual(-1, self.dico.find("test"))
+        self.assertEqual(self.dico.find("test"), -1)
 
         # find
         oracle = [i for i in range(len(self.gv.PUNCTUATION))]
@@ -33,10 +33,10 @@ class TestDico(unittest.TestCase):
 
         test = [self.dico.find(j.value) for j in self.dico.words]
 
-        self.assertEqual(oracle, test)
+        self.assertEqual(test, oracle)
 
         self.dico.words.append(word.Word("test"))
-        self.assertEqual(self.gv.get_index_leer() + 1, self.dico.find("test"))
+        self.assertEqual(self.dico.find("test"), self.gv.get_index_leer() + 1)
 
     def test_add_occurrence(self):
         # two words unknown
