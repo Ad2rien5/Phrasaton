@@ -83,34 +83,68 @@ class TestDicoAccess(unittest.TestCase):
         test = self.dico_access._detection("test", 0)
         oracle = (0, "test", None)
 
-        self.assertEqual(oracle, test)
+        self.assertEqual(test, oracle)
 
         #TODO
         # - parenthèse ouvrante
         # - parenthèse fermante
 
     def test_detection_parenthesis_open(self):
-        # at the start
-        nb_start = random.randint(1, 10)
-        nb_parenthesis = random.randint(1, 5)
-        mot = "".join(
+        for _ in range(100):
+            # at the start
+            nb_start = random.randint(1, 10)
+            nb_parenthesis = random.randint(1, 5)
+            mot = "("*nb_parenthesis + "".join(
+                    random.choice(string.ascii_letters)
+                    for _ in range(random.randint(5, 15))
+            )
+            test = self.dico_access._detection(mot, nb_start)
+            oracle = (nb_start+nb_parenthesis, mot, None)
+            self.assertEqual(test, oracle, f"|start|\nstart : {nb_start}; add : {nb_parenthesis}")
+
+            # at the end
+            nb_start = random.randint(1, 10)
+            nb_parenthesis = random.randint(1, 5)
+            mot = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            ) + "("*nb_parenthesis
+            test = self.dico_access._detection(mot, nb_start)
+            oracle = (nb_start + nb_parenthesis, mot, None)
+            self.assertEqual(test, oracle, f"|end|\nstart : {nb_start}; add : {nb_parenthesis}")
+
+            # in the middle
+            nb_start = random.randint(1, 10)
+            nb_parenthesis = random.randint(1, 5)
+            mot = "".join(
                 random.choice(string.ascii_letters)
                 for _ in range(random.randint(5, 15))
             )
-        test = self.dico_access._detection("("*nb_parenthesis + mot, nb_start)
-        oracle = (nb_start+nb_parenthesis, mot, None)
-        self.assertEqual(oracle, test)
+            mot += "("*nb_parenthesis + mot
+            test = self.dico_access._detection(mot, nb_start)
+            oracle = (nb_start + nb_parenthesis, mot, None)
+            self.assertEqual(test, oracle, f"|middle|\nstart : {nb_start}; add : {nb_parenthesis}")
 
-        # at the end
-        nb_start = random.randint(1, 10)
-        nb_parenthesis = random.randint(1, 5)
-        mot = "".join(
-            random.choice(string.ascii_letters)
-            for _ in range(random.randint(5, 15))
-        )
-        test = self.dico_access._detection(mot + "("*nb_parenthesis, nb_start)
-        oracle = (nb_start + nb_parenthesis, mot, None)
-        self.assertEqual(oracle, test)
-
-        # in the middle
+            # everywhere
+            nb_start = random.randint(1, 10)
+            nb_parenthesis = random.randint(1, 5)
+            nb_parenthesis_mid = random.randint(1, 5)
+            nb_parenthesis_end = random.randint(1, 5)
+            mot = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+            mot = (
+                "("*nb_parenthesis +
+                mot + "("*nb_parenthesis_mid +
+                mot + "("*nb_parenthesis_end
+           )
+            test = self.dico_access._detection(
+                mot, nb_start
+            )
+            oracle = (
+                nb_start + nb_parenthesis + nb_parenthesis_mid + nb_parenthesis_end,
+                mot, None
+            )
+            self.assertEqual(test, oracle, f"|everywhere|\nstart : {nb_start}; begin : {nb_parenthesis}; middle : {nb_parenthesis_mid}; end : {nb_parenthesis_end}")
 

@@ -87,12 +87,10 @@ class DicoAccess:
         gv = global_value.GlobalValue()
 
         for start in gv.PARENTHESIS_START:
-            if start in verified:
-                nb_paren += 1
+            nb_paren += verified.count(start)
 
         for end in gv.PARENTHESIS_END:
-            if end in verified:
-                nb_paren -= 1
+            nb_paren -= verified.count(end)
 
         if nb_paren < 0:
             return nb_paren, None, None
