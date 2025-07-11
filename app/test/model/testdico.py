@@ -44,32 +44,32 @@ class TestDico(unittest.TestCase):
         testa = self.dico.words[self.gv.get_index_leer() + 1]
         testb = self.dico.words[self.gv.get_index_leer() + 2]
 
-        self.assertEqual("a", testa.value)
-        self.assertEqual([[len(self.gv.PUNCTUATION) + 2, 1]], testa._next)
-        self.assertEqual("b", testb.value)
+        self.assertEqual(testa.value, "a")
+        self.assertEqual(testa._next, [[len(self.gv.PUNCTUATION) + 2, 1]])
+        self.assertEqual(testb.value, "b")
 
         # one unknown word
         self.dico.add_occurrence("a", "c")
         testb = self.dico.words[len(self.gv.PUNCTUATION) + 3]
 
         self.assertEqual(
-            [[len(self.gv.PUNCTUATION) + 2, 1], [len(self.gv.PUNCTUATION) + 3, 1]],
-            testa._next
+            testa._next,
+            [[len(self.gv.PUNCTUATION) + 2, 1], [len(self.gv.PUNCTUATION) + 3, 1]]
         )
-        self.assertEqual("c", testb.value)
+        self.assertEqual(testb.value, "c")
 
         self.dico.add_occurrence("d", "a")
         testb = self.dico.words[len(self.gv.PUNCTUATION) + 4]
 
-        self.assertEqual([[len(self.gv.PUNCTUATION) + 2, 1], [len(self.gv.PUNCTUATION) + 3, 1]], testa._next)
-        self.assertEqual([[len(self.gv.PUNCTUATION) + 1, 1]], testb._next)
-        self.assertEqual("d", testb.value)
+        self.assertEqual(testa._next, [[len(self.gv.PUNCTUATION) + 2, 1], [len(self.gv.PUNCTUATION) + 3, 1]])
+        self.assertEqual(testb._next, [[len(self.gv.PUNCTUATION) + 1, 1]])
+        self.assertEqual(testb.value, "d")
 
         # two known
         self.dico.add_occurrence("d", "a")
 
-        self.assertEqual([[len(self.gv.PUNCTUATION) + 1, 2]], testb._next)
-        self.assertEqual("d", testb.value)
+        self.assertEqual(testb._next, [[len(self.gv.PUNCTUATION) + 1, 2]])
+        self.assertEqual(testb.value, "d")
 
     def test_learn(self):
         # sentence badly ended
@@ -87,10 +87,10 @@ class TestDico(unittest.TestCase):
         # word correctly added in the dictionary
         index = self.dico.find("Ha")
 
-        self.assertNotEqual(-1, index, "Failed to save word properly.")
+        self.assertNotEqual(index, -1, "Failed to save word properly.")
         self.assertEqual(
-            3,
             len(self.dico.words[index]._next),
+            3,
             "Failed to save word properly."
         )
 
@@ -130,7 +130,7 @@ class TestDico(unittest.TestCase):
         self.dico.learn(sentence)
 
         for element in self.dico.words:
-            self.assertEqual(oracle[element.value], element._next, f"'{element.value}' failed")
+            self.assertEqual(element._next, oracle[element.value], f"'{element.value}' failed")
 
     def test_speak(self):
         # test the assertion
@@ -149,9 +149,9 @@ class TestDico(unittest.TestCase):
 
         self.dico.nbSentences = 1
         test = self.dico.speak()
-        self.assertEqual(oracle, test)
+        self.assertEqual(test, oracle)
 
         self.dico.nbSentences = 2
         oracle = " This sentence is a test. It ensure the correct working of the program."
         test = self.dico.speak()
-        self.assertEqual(oracle, test)
+        self.assertEqual(test, oracle)
