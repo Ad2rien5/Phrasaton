@@ -6,15 +6,15 @@ import unittest
 
 class TestDico(unittest.TestCase):
 
-    def setUp(self):
-        self.dico = dico.Dico()
-        self.gv = global_value.GlobalValue()
+    def setUp(self) -> None:
+        self.dico : dico.Dico = dico.Dico()
+        self.gv : global_value.GlobalValue = global_value.GlobalValue()
 
     def test_init(self):
-        oracle = []
+        oracle : list[str] = []
         oracle.extend(self.gv.PUNCTUATION)
         oracle.append('leer')
-        test = [
+        test : list[str] = [
             self.dico.words[i].value for i in range(len(self.dico.words))
         ]
 
@@ -23,26 +23,26 @@ class TestDico(unittest.TestCase):
         for nb in self.gv.SENTENCE_END:
             self.assertEqual(self.dico.words[nb]._next, [[6, -1]])
 
-    def test_find(self):
+    def test_find(self) -> None:
         # not find
         self.assertEqual(self.dico.find("test"), -1)
 
         # find
-        oracle = [i for i in range(len(self.gv.PUNCTUATION))]
+        oracle : list[int] = [i for i in range(len(self.gv.PUNCTUATION))]
         oracle.append(self.gv.get_index_leer())
 
-        test = [self.dico.find(j.value) for j in self.dico.words]
+        test : list[int] = [self.dico.find(j.value) for j in self.dico.words]
 
         self.assertEqual(test, oracle)
 
         self.dico.words.append(word.Word("test"))
         self.assertEqual(self.dico.find("test"), self.gv.get_index_leer() + 1)
 
-    def test_add_occurrence(self):
+    def test_add_occurrence(self) -> None:
         # two words unknown
         self.dico.add_occurrence("a", "b")
-        testa = self.dico.words[self.gv.get_index_leer() + 1]
-        testb = self.dico.words[self.gv.get_index_leer() + 2]
+        testa : word.Word = self.dico.words[self.gv.get_index_leer() + 1]
+        testb : word.Word = self.dico.words[self.gv.get_index_leer() + 2]
 
         self.assertEqual(testa.value, "a")
         self.assertEqual(testa._next, [[len(self.gv.PUNCTUATION) + 2, 1]])
@@ -71,10 +71,10 @@ class TestDico(unittest.TestCase):
         self.assertEqual(testb._next, [[len(self.gv.PUNCTUATION) + 1, 2]])
         self.assertEqual(testb.value, "d")
 
-    def test_learn(self):
+    def test_learn(self) -> None:
         # sentence badly ended
         for punc in range(len(self.gv.PUNCTUATION)):
-            test = ("Ha", self.gv.PUNCTUATION[punc])
+            test : tuple[str, str] = ("Ha", self.gv.PUNCTUATION[punc])
 
             try:
                 self.dico.learn(test)
@@ -85,7 +85,7 @@ class TestDico(unittest.TestCase):
                 )
 
         # word correctly added in the dictionary
-        index = self.dico.find("Ha")
+        index : int = self.dico.find("Ha")
 
         self.assertNotEqual(index, -1, "Failed to save word properly.")
         self.assertEqual(
@@ -94,10 +94,10 @@ class TestDico(unittest.TestCase):
             "Failed to save word properly."
         )
 
-    def test_learn2(self):
+    def test_learn2(self) -> None:
         # set-up
-        leer = self.gv.get_index_leer()
-        sentence = ("This", "sentence", "is", "a", "test", ".", "It", "ensure", "the", "correct", "working", "of",
+        leer : int = self.gv.get_index_leer()
+        sentence : tuple[str, ...]= ("This", "sentence", "is", "a", "test", ".", "It", "ensure", "the", "correct", "working", "of",
                     "the", "program", ".")
         oracle = {
             "leer": [],

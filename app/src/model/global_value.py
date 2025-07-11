@@ -19,7 +19,7 @@ class GlobalValue:
     """
 
     def __init__(self) -> None:
-        self.BAD_CHAR = [
+        self.BAD_CHAR : list[str] = [
             '"',
             "<",
             ">",
@@ -30,18 +30,18 @@ class GlobalValue:
             "»",
             "«"
         ]
-        self.PARENTHESIS_START = ["(", "{", "["]
-        self.PARENTHESIS_END = [")", "}", "]"]
-        self.PUNCTUATION = ["?", ",", ";", ".", ":", "!"]
-        self.SENTENCE_END = [0, 3, 5]
+        self.PARENTHESIS_START : list[str] = ["(", "{", "["]
+        self.PARENTHESIS_END : list[str] = [")", "}", "]"]
+        self.PUNCTUATION : list[str] = ["?", ",", ";", ".", ":", "!"]
+        self.SENTENCE_END : list[int] = [0, 3, 5]
 
-    def end_sent_str(self) -> list:
+    def end_sent_str(self) -> list[str]:
         """
         Return a list of the value of 'self.SENTENCE_END' but in str type.
         """
         return [self.PUNCTUATION[i] for i in self.SENTENCE_END]
     
-    def get_index_leer(self):
+    def get_index_leer(self) -> int:
         """
         Return the index of the leer word.
 

@@ -1,5 +1,6 @@
 import app.src.model.global_value as global_value
 from app.src.model.dico import Dico
+from app.src.model.global_value import GlobalValue
 
 
 class DicoAccess:
@@ -12,7 +13,7 @@ class DicoAccess:
         """
         Save the instance of the dico that will be used by the user
         """
-        self.dico = Dico()
+        self.dico : Dico = Dico()
 
     def _purge_bad_char(self, word: str) -> str:
         """
@@ -28,7 +29,7 @@ class DicoAccess:
         word: str
             same word but without any non-authorize char
         """
-        bad_char = global_value.GlobalValue().BAD_CHAR
+        bad_char : list[str] = global_value.GlobalValue().BAD_CHAR
         for chara in bad_char:
             while chara in word:
                 assert (
@@ -38,7 +39,7 @@ class DicoAccess:
 
         return word
 
-    def _punctuation(self, word: str) -> tuple:
+    def _punctuation(self, word: str) -> tuple[str, str]:
         """
         Remove the punctuation at the end of a word
 
@@ -61,7 +62,7 @@ class DicoAccess:
 
         return word[:-1], word[-1]
 
-    def _detection(self, word: str, nb_paren: int) -> tuple:
+    def _detection(self, word: str, nb_paren: int) -> tuple[int, str, str] | tuple[int, str, None] | tuple[int, None, None]:
         """
         Assure that the word is correct and can be added to the database.
         In addition to the word, it can also return a punctuation
@@ -83,8 +84,8 @@ class DicoAccess:
         punctuation: ?str
             possible punctuation
         """
-        verified = word
-        gv = global_value.GlobalValue()
+        verified : str = word
+        gv : GlobalValue = global_value.GlobalValue()
 
         for start in gv.PARENTHESIS_START:
             nb_paren += verified.count(start)
@@ -102,12 +103,12 @@ class DicoAccess:
 
         for chara2 in gv.PUNCTUATION:
             if chara2 in verified:
-                result = self._punctuation(verified)
+                result : tuple[str, str] = self._punctuation(verified)
                 return nb_paren, result[0], result[1]
 
         return nb_paren, verified, None
 
-    def _mass_cleaning(self, text: str) -> list:
+    def _mass_cleaning(self, text: str) -> list[str]:
         """
         Format a text for it to be ready to be saved in the database
 
@@ -121,10 +122,10 @@ class DicoAccess:
         formated: list<str>
             text cleanse and formatted in the format of a list of string
         """
-        nb_parenthesis = 0
+        nb_parenthesis : int = 0
 
-        text = text.split(" ")
-        formated = []
+        text : list[str] = text.split(" ")
+        formated : list[str] = []
 
         for word in text:
             test = self._detection(word, nb_parenthesis)
@@ -136,11 +137,10 @@ class DicoAccess:
 
                 if test[2] is not None:
                     formated.append(test[2])
-
         return formated
 
-    def save_dico_data(self, command: str):
-        """
+    def save_dico_data(self, command: str) -> str | None:
+        """tuple
         Allow the model to learn from the user's command
 
         Parameters
@@ -155,13 +155,13 @@ class DicoAccess:
             return "None" if no error occur
         """
         try:
-            clean_text = tuple(self._mass_cleaning(command))
+            clean_text : tuple[str, ...] = tuple(self._mass_cleaning(command))
             self.dico.learn(clean_text)
         except AssertionError as err:
             return f"LearningError: {err}"
         return None
 
-    def get_text_from_dico(self):
+    def get_text_from_dico(self) -> tuple[str, None] | tuple[None, str]:
         """
         Get a generated text from the model
 

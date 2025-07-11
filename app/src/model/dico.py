@@ -1,5 +1,6 @@
 import app.src.model.global_value as global_value
 import app.src.model.word as word
+from app.src.model.global_value import GlobalValue
 
 
 class Dico:
@@ -18,11 +19,11 @@ class Dico:
     """
 
     def __init__(self) -> None:
-        self.nbSentences = 0
+        self.nbSentences : int = 0
 
         # initialisation de la base de donnée
-        self.gv = global_value.GlobalValue()
-        self.words = [word.Word(element) for element in self.gv.PUNCTUATION]
+        self.gv : GlobalValue = global_value.GlobalValue()
+        self.words : list[word.Word] = [word.Word(element) for element in self.gv.PUNCTUATION]
         self.words.append(word.Word("leer"))
         for index in self.gv.SENTENCE_END:
             self.words[index].is_end(self.gv.get_index_leer())
@@ -59,12 +60,12 @@ class Dico:
         after: str
             the occurrence
         """
-        index1 = self.find(actual)
+        index1 : int = self.find(actual)
         if index1 == -1:
             self.words.append(word.Word(actual))
             index1 = len(self.words) - 1
+        index2 : int = self.find(after)
 
-        index2 = self.find(after)
         if index2 == -1:
             self.words.append(word.Word(after))
             index2 = len(self.words) - 1
@@ -89,24 +90,24 @@ class Dico:
         """
         assert self.nbSentences > 0, "Phrasaton speak only after the user."
         assert len(self.words) > 6, "No words are actually known!"
-        current = 3
-        nb = 0
-        text = ""
+        current : int = 3
+        nb : int = 0
+        text : int = ""
 
         while nb < self.nbSentences:
 
-            after = self.words[current].next_word()
+            after : int = self.words[current].next_word()
             text += self.words[after].value
 
             if self.words[after].value in self.gv.end_sent_str():
                 nb += 1
 
-            current = after
+            current : int = after
 
         self.reset_cache()
         return text
 
-    def learn(self, text: tuple) -> None:
+    def learn(self, text: tuple[str, ...]) -> None:
         """
         Save a whole text in the database
 
@@ -116,7 +117,7 @@ class Dico:
             Text that need to be saved
         """
         # counting the sentences
-        self.nbSentences = 0
+        self.nbSentences : int = 0
         
         for punct in text:
             if punct in self.gv.end_sent_str():

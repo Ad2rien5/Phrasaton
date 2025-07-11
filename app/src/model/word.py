@@ -6,7 +6,7 @@ class Word:
         The word as we can see it.
 
     next_list: list<list<int>>
-        list of list of two int
+        list of multiple list of two int
             - index of the word in the actual dictionary
             - number of times it has appeared after the current word
 
@@ -15,23 +15,24 @@ class Word:
     """
 
     def __init__(self, value: str) -> None:
-        self.value = value
-        self._next = []
-        self._cache = []
+        self.value : str = value
+        self._next : list[list] = []
+        self._cache : list[int] = []
 
     def add_word(self, index: int) -> None:
         """
         Add a word to the 'next_list', but if the word is already in it, it increments the number of encounter.
+
+        Parameter :
+        -----------
+        index: int
+            The index of the word to be added.
         """
-        fund = False
         for i in range(len(self._next)):
             if self._next[i][0] == index:
                 self._next[i][1] += 1
-                fund = True
-                break
-
-        if not fund:
-            self._next.append([index, 1])
+                return
+        self._next.append([index, 1])
 
     def is_end(self, index_leer: int) -> None:
         """
@@ -58,7 +59,7 @@ class Word:
             index of the next word in the dictionary
         """
         assert len(self._next) > 0, f"Can't ask a word for next when he has no next {self.value}"
-        chosen_one = [None, 0]
+        chosen_one : list[int] = [-1, 0]
 
         for element in self._next:
 
