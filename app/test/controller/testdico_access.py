@@ -152,6 +152,7 @@ class TestDicoAccess(unittest.TestCase):
             )
 
     def test_detection_parenthesis_close(self) -> None:
+        # TODO replace add by substract in assertion message
         for sign in self.gv.PARENTHESIS_END:
             # at the start
             nb_start : int = random.randint(5, 15)
