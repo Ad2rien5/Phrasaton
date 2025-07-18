@@ -212,3 +212,100 @@ class TestDicoAccess(unittest.TestCase):
                 test, oracle,
                 f"|everywhere|\nstart : {nb_start}; begin : {nb_parenthesis}; middle : {nb_parenthesis_mid}; end : {nb_parenthesis_end}"
             )
+
+    def test_detection_parenthesis_both(self) -> None:
+        for num_sign in len(self.gv.PARENTHESIS_END):
+            open_sign = self.gv.PARENTHESIS_START[num_sign]
+            close_sign = self.gv.PARENTHESIS_END[num_sign]
+
+            # at the start
+            nb_start : int = random.randint(15, 35)
+            nb_parenthesis_o : int = random.randint(1, 5)
+            nb_parenthesis_c : int = random.randint(1, 5)
+            mot : str = (
+                open_sign * nb_parenthesis_o + 
+                close_sign * nb_parenthesis_c +
+                "".join(
+                    random.choice(string.ascii_letters)
+                    for _ in range(random.randint(5, 15))
+                )
+            )
+            test : tuple = self.dico_access._detection(mot, nb_start)
+            oracle : tuple = (
+                nb_start - nb_parenthesis_c + nb_parenthesis_o, 
+                mot, 
+                None
+            )
+            self.assertEqual(test, oracle, f"|start|\nstart : {nb_start}; open : {nb_parenthesis_o}; close : {nb_parenthesis_c};")
+
+            # at the end
+            nb_start : int = random.randint(15, 35)
+            nb_parenthesis_o : int = random.randint(1, 5)
+            nb_parenthesis_c : int = random.randint(1, 5)
+            mot = (
+                "".join(
+                    random.choice(string.ascii_letters)
+                    for _ in range(random.randint(5, 15))
+                ) + 
+                open_sign * nb_parenthesis_o + 
+                close_sign * nb_parenthesis_c
+            )
+            test = self.dico_access._detection(mot, nb_start)
+            oracle : tuple = (
+                nb_start - nb_parenthesis_c + nb_parenthesis_o, 
+                mot, 
+                None
+            )
+            self.assertEqual(test, oracle, f"|end|\nstart : {nb_start}; open : {nb_parenthesis_o}; close : {nb_parenthesis_c};")
+
+            # in the middle
+            nb_start : int = random.randint(15, 35)
+            nb_parenthesis_o : int = random.randint(1, 5)
+            nb_parenthesis_c : int = random.randint(1, 5)
+            mot = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+            mot += open_sign*nb_parenthesis_o + close_sign*nb_parenthesis_c + mot
+            test = self.dico_access._detection(mot, nb_start)
+            oracle : tuple = (
+                nb_start - nb_parenthesis_c + nb_parenthesis_o, 
+                mot, 
+                None
+            )
+            self.assertEqual(test, oracle, f"|middle|\nstart : {nb_start}; open : {nb_parenthesis_o}; close : {nb_parenthesis_c};")
+
+            # everywhere
+            nb_start : int = random.randint(15, 35)
+            nb_parenthesis_o : int = random.randint(1, 5)
+            nb_parenthesis_c : int = random.randint(1, 5)
+            nb_parenthesis_mid : int = random.randint(1, 3)
+            nb_parenthesis_end : int = random.randint(1, 3)
+            mot = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+            mot = (
+                    open_sign*nb_parenthesis_o +
+                    close_sign*nb_parenthesis_c +
+                    mot + 
+                    open_sign*nb_parenthesis_mid*nb_parenthesis_o +
+                    close_sign*nb_parenthesis_mid*nb_parenthesis_c +
+                    mot + 
+                    open_sign*nb_parenthesis_end*nb_parenthesis_o + 
+                    close_sign*nb_parenthesis_end*nb_parenthesis_c
+            )
+            test = self.dico_access._detection(
+                mot, nb_start
+            )
+            total_o : int = nb_parenthesis_o*(1+nb_parenthesis_mid+nb_parenthesis_end)
+            total_c : int = nb_parenthesis_c*(1+nb_parenthesis_mid+nb_parenthesis_end)
+            oracle = (
+                nb_start + total_o - total_c,
+                mot, 
+                None
+            )
+            self.assertEqual(
+                test, oracle,
+                f"|everywhere|\nstart : {nb_start}; open : {nb_parenthesis_o}; close : {nb_parenthesis_c}; middle : {nb_parenthesis_mid}; end : {nb_parenthesis_end}"
+            )
