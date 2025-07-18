@@ -152,7 +152,6 @@ class TestDicoAccess(unittest.TestCase):
             )
 
     def test_detection_parenthesis_close(self) -> None:
-        # TODO replace add by substract in assertion message
         for sign in self.gv.PARENTHESIS_END:
             # at the start
             nb_start : int = random.randint(5, 15)
@@ -163,7 +162,7 @@ class TestDicoAccess(unittest.TestCase):
             )
             test : tuple = self.dico_access._detection(mot, nb_start)
             oracle : tuple = (nb_start - nb_parenthesis, mot, None)
-            self.assertEqual(test, oracle, f"|start|\nstart : {nb_start}; add : {nb_parenthesis}")
+            self.assertEqual(test, oracle, f"|start|\nstart : {nb_start}; substract : {nb_parenthesis}")
 
             # at the end
             nb_start = random.randint(5, 15)
@@ -174,7 +173,7 @@ class TestDicoAccess(unittest.TestCase):
             ) + sign * nb_parenthesis
             test = self.dico_access._detection(mot, nb_start)
             oracle = (nb_start - nb_parenthesis, mot, None)
-            self.assertEqual(test, oracle, f"|end|\nstart : {nb_start}; add : {nb_parenthesis}")
+            self.assertEqual(test, oracle, f"|end|\nstart : {nb_start}; substract : {nb_parenthesis}")
 
             # in the middle
             nb_start = random.randint(5, 15)
@@ -186,7 +185,7 @@ class TestDicoAccess(unittest.TestCase):
             mot += sign * nb_parenthesis + mot
             test = self.dico_access._detection(mot, nb_start)
             oracle = (nb_start - nb_parenthesis, mot, None)
-            self.assertEqual(test, oracle, f"|middle|\nstart : {nb_start}; add : {nb_parenthesis}")
+            self.assertEqual(test, oracle, f"|middle|\nstart : {nb_start}; substract : {nb_parenthesis}")
 
             # everywhere
             nb_start = random.randint(5, 15)
