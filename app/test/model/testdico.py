@@ -99,7 +99,7 @@ class TestDico(unittest.TestCase):
         leer : int = self.gv.get_index_leer()
         sentence : tuple[str, ...]= ("This", "sentence", "is", "a", "test", ".", "It", "ensure", "the", "correct", "working", "of",
                     "the", "program", ".")
-        oracle = {
+        oracle : dict[str:list] = {
             "leer": [],
             "This": [[leer + 2, 1]],
             "sentence": [[leer + 3, 1]],
@@ -115,7 +115,7 @@ class TestDico(unittest.TestCase):
             "program": [[3, 1]]
         }
 
-        stc_end = self.gv.end_sent_str()
+        stc_end : list[str] = self.gv.end_sent_str()
 
         for punc in self.gv.PUNCTUATION:
 
@@ -132,7 +132,7 @@ class TestDico(unittest.TestCase):
         for element in self.dico.words:
             self.assertEqual(element._next, oracle[element.value], f"'{element.value}' failed")
 
-    def test_speak(self):
+    def test_speak(self) -> None:
         # test the assertion
         with self.assertRaises(AssertionError):
             self.dico.speak()
@@ -145,10 +145,10 @@ class TestDico(unittest.TestCase):
         self.dico.learn(
             (" This", " sentence", " is", " a", " test", ".", " It", " ensure", " the", " correct", " working", " of",
              " the", " program", "."))
-        oracle = " This sentence is a test."
+        oracle : str = " This sentence is a test."
 
         self.dico.nbSentences = 1
-        test = self.dico.speak()
+        test : str = self.dico.speak()
         self.assertEqual(test, oracle)
 
         self.dico.nbSentences = 2

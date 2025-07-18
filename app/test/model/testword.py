@@ -3,10 +3,10 @@ import unittest
 
 class TestWord(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.test_word = word.Word('test')
 
-    def test_add_word(self):
+    def test_add_word(self) -> None:
         self.test_word.add_word(0)
 
         self.assertEqual(self.test_word._next, [[0, 1]])
@@ -17,7 +17,7 @@ class TestWord(unittest.TestCase):
         self.test_word.add_word(1)
         self.assertEqual(self.test_word._next, [[0, 2], [1, 1]])
 
-    def test_is_end(self):
+    def test_is_end(self) -> None:
         self.test_word.add_word(0)
 
         with self.assertRaises(AssertionError):
@@ -27,7 +27,7 @@ class TestWord(unittest.TestCase):
         self.test_word.is_end(0)
         self.assertEqual(self.test_word._next, [[0, -1]])
 
-    def test_next_word(self):
+    def test_next_word(self) -> None:
         with self.assertRaises(AssertionError):
             self.test_word.next_word()
 
@@ -36,12 +36,8 @@ class TestWord(unittest.TestCase):
         self.test_word.add_word(1)
         self.test_word.add_word(2)
 
-        oracle = [1, 2, 0]
-        test = [self.test_word.next_word() for _ in range(3)]
+        oracle : list[int] = [1, 2, 0]
+        test : list[int] = [self.test_word.next_word() for _ in range(3)]
         self.assertEqual(test, oracle)
 
         self.assertEqual(self.test_word.next_word(), 0)
-
-
-if __name__ == '__main__':
-    unittest.main()
