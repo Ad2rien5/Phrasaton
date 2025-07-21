@@ -62,7 +62,7 @@ class DicoAccess:
 
         return word[:-1], word[-1]
 
-    def _detection(self, word: str, nb_paren: int) -> tuple[int, str, str] | tuple[int, str, None] | tuple[int, None, None]:
+    def _detection(self, word: str, nb_paren: int) -> tuple[int, str, str] | tuple[int, str, None]:
         """
         Assure that the word is correct and can be added to the database.
         In addition to the word, it can also return a punctuation
@@ -92,9 +92,6 @@ class DicoAccess:
 
         for end in gv.PARENTHESIS_END:
             nb_paren -= verified.count(end)
-
-        if nb_paren < 0:
-            return nb_paren, None, None
 
         for chara in gv.BAD_CHAR:
             if chara in verified:
@@ -131,12 +128,11 @@ class DicoAccess:
             test = self._detection(word, nb_parenthesis)
             nb_parenthesis = test[0]
 
-            if test[1] is not None:
-                # the space is added to allow words to be separate when the bot will talk
-                formated.append(" " + test[1])
+            # the space is added to allow words to be separate when the bot will talk
+            formated.append(" " + test[1])
 
-                if test[2] is not None:
-                    formated.append(test[2])
+            if test[2] is not None:
+                formated.append(test[2])
         return formated
 
     def save_dico_data(self, command: str) -> str | None:

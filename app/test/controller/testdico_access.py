@@ -206,7 +206,8 @@ class TestDicoAccess(unittest.TestCase):
             )
             oracle = (
                 nb_start - nb_parenthesis - nb_parenthesis_mid - nb_parenthesis_end,
-                mot, None
+                mot,
+                None
             )
             self.assertEqual(
                 test, oracle,
@@ -214,7 +215,7 @@ class TestDicoAccess(unittest.TestCase):
             )
 
     def test_detection_parenthesis_both(self) -> None:
-        for num_sign in len(self.gv.PARENTHESIS_END):
+        for num_sign in range(len(self.gv.PARENTHESIS_END)):
             open_sign = self.gv.PARENTHESIS_START[num_sign]
             close_sign = self.gv.PARENTHESIS_END[num_sign]
 
