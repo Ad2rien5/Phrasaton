@@ -79,15 +79,11 @@ class TestDicoAccess(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 self.dico_access._punctuation(word)
 
-    def test_detection1(self) -> None:
+    def test_detection_classic(self) -> None:
         test : tuple = self.dico_access._detection("test", 0)
         oracle : tuple = (0, "test", None)
 
         self.assertEqual(test, oracle)
-
-        #TODO
-        # - parenthèse ouvrante
-        # - parenthèse fermante
 
     def test_detection_parenthesis_open(self) -> None:
         for sign in self.gv.PARENTHESIS_START:
@@ -310,3 +306,13 @@ class TestDicoAccess(unittest.TestCase):
                 test, oracle,
                 f"|everywhere|\nstart : {nb_start}; open : {nb_parenthesis_o}; close : {nb_parenthesis_c}; middle : {nb_parenthesis_mid}; end : {nb_parenthesis_end}"
             )
+
+# TODO 
+# - ponctuation
+#   - chaque signe de ponctuation est bien rajouté au renvoi
+# - ponctuation + parenthèse
+    # - chaque signe de ponctuation est bien rajouté au renvoi malgré la présence de parenthèse autour de la ponctuation
+    #   - parenthèses ouvrantes et fermantes
+        # - avant
+        # - après
+        # - les deux
