@@ -38,6 +38,6 @@ class TestWord(unittest.TestCase):
 
         oracle : list[int] = [1, 2, 0]
         test : list[int] = [self.test_word.next_word() for _ in range(3)]
-        self.assertEqual(test, oracle)
+        self.assertEqual(oracle, test)
 
         self.assertEqual(self.test_word.next_word(), 0)

@@ -145,13 +145,14 @@ class TestDico(unittest.TestCase):
         self.dico.learn(
             (" This", " sentence", " is", " a", " test", ".", " It", " ensure", " the", " correct", " working", " of",
              " the", " program", "."))
-        oracle : str = " This sentence is a test."
+        # the algorithm is more LiFo now.
+        oracle : str = " It ensure the program."
 
         self.dico.nbSentences = 1
         test : str = self.dico.speak()
-        self.assertEqual(test, oracle)
+        self.assertEqual(oracle, test)
 
         self.dico.nbSentences = 2
-        oracle = " This sentence is a test. It ensure the correct working of the program."
+        oracle = " It ensure the program. This sentence is a test."
         test = self.dico.speak()
-        self.assertEqual(test, oracle)
+        self.assertEqual(oracle, test)

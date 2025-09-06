@@ -10,7 +10,7 @@ class Word:
             - index of the word in the actual dictionary
             - number of times it has appeared after the current word
 
-    already_use: list<int>
+    cache: list<int>
         list of index of 'next_list' pointing to word that already have been use in the current sentence.
     """
 
@@ -58,20 +58,15 @@ class Word:
         chosen_one: int
             index of the next word in the dictionary
         """
-        assert len(self._next) > 0, f"Can't ask a word for next when he has no next {self.value}"
-        chosen_one : list[int] = [-1, 0]
+        assert len(self._next) > 0, f"Can't ask a word for next when it has no next {self.value}"
+        chosen_one : list[int]|None = None
 
         for element in self._next:
 
-            if element[1] > chosen_one[1] and (
-                element[0] not in self._cache or chosen_one is None
+            if chosen_one is None or (
+                element[1] >= chosen_one[1] and element[0] not in self._cache
             ):
                 chosen_one = element
 
-                if element[0] not in self._cache:
-                    self._cache.append(element[0])
-
-        if chosen_one[0] is None:
-            return self._next[0][0]
-
+        self._cache.append(chosen_one[0])
         return chosen_one[0]
