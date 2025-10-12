@@ -39,14 +39,16 @@ class DicoAccess:
 
         return word
 
-    def _punctuation(self, word: str) -> tuple[str, str]:
+    def _punctuation(self, word: str, punc: str) -> tuple[str, str]:
         """
-        Remove the punctuation at the end of a word
+        Separate the punctuation in a word
 
         Parameter
         ---------
         word: str
             word that contains a punctuation
+        punc: str
+            punctuation that need to be separated
 
         Return
         ------
@@ -57,10 +59,11 @@ class DicoAccess:
             the punctuation that was at the end of the word
         """
         assert (
-                word[-1] in global_value.GlobalValue().PUNCTUATION
-        ), "This word doesn't contain any punctuation."
+                punc in word
+        ), "This word doesn't contain the given punctuation."
 
-        return word[:-1], word[-1]
+        index: int = word.index(punc)
+        return word[:index], word[index:]
 
     def _detection(self, word: str, nb_paren: int) -> tuple[int, str, str] | tuple[int, str, None]:
         """
@@ -100,7 +103,7 @@ class DicoAccess:
 
         for chara2 in gv.PUNCTUATION:
             if chara2 in verified:
-                result : tuple[str, str] = self._punctuation(verified)
+                result : tuple[str, str] = self._punctuation(verified, chara2)
                 return nb_paren, result[0], result[1]
 
         return nb_paren, verified, None

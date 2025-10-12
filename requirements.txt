@@ -1,9 +1,4 @@
-colorama==0.4.6
-iniconfig==2.1.0
-packaging==25.0
--e git+https://github.com/Ad2rien5/Phrasaton.git@a64b948e7199cf817333e46ee32eb2e4b142d8cf#egg=Phrasaton
-pluggy==1.6.0
-Pygments==2.19.2
-pytest==8.4.2
-setuptools==75.8.0
+black==24.10.0
+isort==5.13.2
+-e git+https://github.com/Ad2rien5/Phrasaton.git@7c5d51da6a646a64c14d3b33f40056060894a22a#egg=Phrasaton
 tk==0.1.0
