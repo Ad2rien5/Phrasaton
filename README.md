@@ -16,18 +16,28 @@ progress!
 
 ## Usage
 
-To use this program, you need to complete several steps. Firstly, you need to 
-install the necessary dependencies. These dependencies are written in the 
-*requirement.txt* file. Next, you need to show Python where the various 
-Phrasaton modules are located. Finally, you need to run the main.py file.
+This application is a Python project for which it is recommended that you create 
+your own environment. Then you can install the necessary dependencies. Those are 
+located in the *requirement.txt* file. And finally, you can run the *main.py* 
+file to launch the app.  
+The method for doing this varies depending on your operating system.  
 
-To do all this, you can use these commands :
-
-```shell
+### On Windows :  
+```ps
+cd {path_to_the_project}\Phrasaton
+py -m venv .venv
+.venv\bin\activate
 pip install -r requirement.txt
-pip install -e .
+py app\src\__main__.py
+```  
+### On Linux :  
+```sh
+cd {path_to_the_project}/Phrasaton
+python3 -m venv .venv
+source .venv\bin\activate
+pip install -r requirement.txt
 python3 app/src/__main__.py
-```
+```  
 
 ## Technology Involved
 

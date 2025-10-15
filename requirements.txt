@@ -1,4 +1,2 @@
-black==24.10.0
-isort==5.13.2
--e git+https://github.com/Ad2rien5/Phrasaton.git@7c5d51da6a646a64c14d3b33f40056060894a22a#egg=Phrasaton
 tk==0.1.0
+-e git+https://github.com/Ad2rien5/Phrasaton.git@7c5d51da6a646a64c14d3b33f40056060894a22a#egg=Phrasaton
