@@ -79,6 +79,18 @@ class TestDicoAccess(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 self.dico_access._punctuation(word, char)
 
+    def test_punctuation3(self) -> None:
+        for char in self.gv.PUNCTUATION:
+            randstr: str = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
+            word: str = randstr + char + randstr
+
+            result, punc = self.dico_access._punctuation(word, char)
+            self.assertEqual(result, randstr)
+            self.assertEqual(punc, char+randstr)
+
     def test_detection_classic(self) -> None:
         test : tuple = self.dico_access._detection("test", 0)
         oracle : tuple = (0, "test", None)
