@@ -58,27 +58,26 @@ class TestDicoAccess(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 self.dico_access._purge_bad_char(char)
 
-# TODO update those test
-#    def test_punctuation1(self) -> None:
-#        for char in self.gv.PUNCTUATION:
-#            word : str = "".join(
-#                random.choice(string.ascii_letters)
-#                for _ in range(random.randint(5, 15))
-#            ) + char
+    def test_punctuation1(self) -> None:
+        for char in self.gv.PUNCTUATION:
+            word : str = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            ) + char
 
-#            oracle : tuple[str, str] = (word[:-1], char)
+            oracle : tuple[str, str] = (word[:-1], char)
 
-#            self.assertEqual(self.dico_access._punctuation(word), oracle)
+            self.assertEqual(self.dico_access._punctuation(word, char), oracle)
 
-#    def test_punctuation2(self) -> None:
-#        for _ in range(100):
-#            word : str = "".join(
-#                random.choice(string.ascii_letters)
-#                for _ in range(random.randint(5, 15))
-#            )
+    def test_punctuation2(self) -> None:
+        for char in self.gv.PUNCTUATION:
+            word : str = "".join(
+                random.choice(string.ascii_letters)
+                for _ in range(random.randint(5, 15))
+            )
 
-#            with self.assertRaises(AssertionError):
-#                self.dico_access._punctuation(word)
+            with self.assertRaises(AssertionError):
+                self.dico_access._punctuation(word, char)
 
     def test_detection_classic(self) -> None:
         test : tuple = self.dico_access._detection("test", 0)
