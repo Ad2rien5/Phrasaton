@@ -38,8 +38,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Black and ISort formatting check
       run : |
-        isort --check-only
-        black --check
+        isort . --check-only
+        black . --check
     - name: Test with unittest
       run: |
         python3 -m unittest discover -s app/test/ -p "test*.py"
