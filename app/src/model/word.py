@@ -6,32 +6,33 @@ class Word:
         The word as we can see it.
 
     next_list: list<list<int>>
-        list of list of two int
+        list of multiple list of two int
             - index of the word in the actual dictionary
             - number of times it has appeared after the current word
 
-    already_use: list<int>
+    cache: list<int>
         list of index of 'next_list' pointing to word that already have been use in the current sentence.
     """
 
     def __init__(self, value: str) -> None:
-        self.value = value
-        self._next = []
-        self._cache = []
+        self.value : str = value
+        self._next : list[list] = []
+        self._cache : list[int] = []
 
     def add_word(self, index: int) -> None:
         """
         Add a word to the 'next_list', but if the word is already in it, it increments the number of encounter.
+
+        Parameter :
+        -----------
+        index: int
+            The index of the word to be added.
         """
-        fund = False
         for i in range(len(self._next)):
             if self._next[i][0] == index:
                 self._next[i][1] += 1
-                fund = True
-                break
-
-        if not fund:
-            self._next.append([index, 1])
+                return
+        self._next.append([index, 1])
 
     def is_end(self, index_leer: int) -> None:
         """
@@ -57,19 +58,15 @@ class Word:
         chosen_one: int
             index of the next word in the dictionary
         """
-        chosen_one = [None, 0]
+        assert len(self._next) > 0, f"Can't ask a word for next when it has no next {self.value}"
+        chosen_one : list[int]|None = None
 
         for element in self._next:
 
-            if element[1] > chosen_one[1] and (
-                element[0] not in self._cache or chosen_one is None
+            if chosen_one is None or (
+                element[1] >= chosen_one[1] and element[0] not in self._cache
             ):
                 chosen_one = element
 
-                if element[0] not in self._cache:
-                    self._cache.append(element[0])
-
-        if chosen_one[0] is None:
-            return self._next[0][0]
-
+        self._cache.append(chosen_one[0])
         return chosen_one[0]

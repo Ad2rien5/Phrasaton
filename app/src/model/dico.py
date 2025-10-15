@@ -1,5 +1,6 @@
-import model.global_value as global_value
-import model.word as word
+import app.src.model.global_value as global_value
+import app.src.model.word as word
+from app.src.model.global_value import GlobalValue
 
 
 class Dico:
@@ -18,14 +19,14 @@ class Dico:
     """
 
     def __init__(self) -> None:
-        self.nbSentences = 0
+        self.nbSentences : int = 0
 
         # initialisation de la base de donnée
-        gv = global_value.GlobalValue()
-        self.words = [word.Word(element) for element in gv.PUNCTUATION]
+        self.gv : GlobalValue = global_value.GlobalValue()
+        self.words : list[word.Word] = [word.Word(element) for element in self.gv.PUNCTUATION]
         self.words.append(word.Word("leer"))
-        for index in gv.SENTENCE_END:
-            self.words[index].is_end(6)
+        for index in self.gv.SENTENCE_END:
+            self.words[index].is_end(self.gv.get_index_leer())
 
     def find(self, value: str) -> int:
         """
@@ -42,7 +43,6 @@ class Dico:
             index of the word inside the dictionary
             return -1 if the word isn't find
         """
-        assert type(value) == str, "value is not a string"
         for i in range(len(self.words)):
             if self.words[i].value == value:
                 return i
@@ -60,15 +60,12 @@ class Dico:
         after: str
             the occurrence
         """
-        assert type(actual) == str, "actual is not a string"
-        assert type(after) == str, "next is not a string"
-
-        index1 = self.find(actual)
+        index1 : int = self.find(actual)
         if index1 == -1:
             self.words.append(word.Word(actual))
             index1 = len(self.words) - 1
+        index2 : int = self.find(after)
 
-        index2 = self.find(after)
         if index2 == -1:
             self.words.append(word.Word(after))
             index2 = len(self.words) - 1
@@ -77,7 +74,6 @@ class Dico:
 
     def reset_cache(self) -> None:
         """
-        Méthode qui va permettre de réinitialiser pour tous les mots, leur attribut 'dejaUtilise' (voir './Mot.py')
         Reset all cache from each word
         """
         for i in range(len(self.words)):
@@ -92,27 +88,26 @@ class Dico:
         text: str
             generated text
         """
-        assert self.nbSentences != 0, "Phrasaton speak only after the user."
+        assert self.nbSentences > 0, "Phrasaton speak only after the user."
         assert len(self.words) > 6, "No words are actually known!"
-        current = 3
-        nb = 0
-        text = ""
-        gv = global_value.GlobalValue()
+        current : int = 3
+        nb : int = 0
+        text : int = ""
 
         while nb < self.nbSentences:
 
-            after = self.words[current].next_word()
+            after : int = self.words[current].next_word()
             text += self.words[after].value
 
-            if self.words[after].value in gv.end_sent_str():
+            if self.words[after].value in self.gv.end_sent_str():
                 nb += 1
 
-            current = after
+            current : int = after
 
         self.reset_cache()
         return text
 
-    def learn(self, texte: tuple) -> None:
+    def learn(self, text: tuple[str, ...]) -> None:
         """
         Save a whole text in the database
 
@@ -122,19 +117,19 @@ class Dico:
             Text that need to be saved
         """
         # counting the sentences
-        self.nbSentences = 0
-        gv = global_value.GlobalValue()
-        for punct in texte:
-            if punct in gv.end_sent_str():
+        self.nbSentences : int = 0
+        
+        for punct in text:
+            if punct in self.gv.end_sent_str():
                 self.nbSentences += 1
 
         assert (
-            texte[-1] in gv.end_sent_str()
+            text[-1] in self.gv.end_sent_str()
         ), "This sentence don't end with a valid punctuation."
 
         # add the first word of the text to all ending punctuation
-        for punctuation in gv.end_sent_str():
-            self.add_occurrence(punctuation, texte[0])
+        for punctuation in self.gv.end_sent_str():
+            self.add_occurrence(punctuation, text[0])
 
-        for index in range(len(texte[1:])):
-            self.add_occurrence(texte[index], texte[index + 1])
+        for index in range(len(text[1:])):
+            self.add_occurrence(text[index], text[index + 1])
