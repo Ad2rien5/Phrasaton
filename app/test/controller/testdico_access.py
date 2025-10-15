@@ -327,11 +327,13 @@ class TestDicoAccess(unittest.TestCase):
                 # after
                 nb_paren, word, punctuation = self.dico_access._detection(f"word{punc}{self.gv.PARENTHESIS_END[sign]}", 0)
                 self.assertEqual(nb_paren, -1)
-                self.assertEqual(word, f"word{self.gv.PARENTHESIS_END[sign]}")
+                self.assertEqual(word, "word")
+                self.assertEqual(punctuation, f"{punc}{self.gv.PARENTHESIS_END[sign]}")
                 self.assertEqual(punctuation, punc+self.gv.PARENTHESIS_END[sign])
 
                 # both
                 nb_paren, word, punctuation = self.dico_access._detection(f"{self.gv.PARENTHESIS_START[sign]}word{punc}{self.gv.PARENTHESIS_END[sign]}", 0)
                 self.assertEqual(nb_paren, 0)
                 self.assertEqual(word, f"{self.gv.PARENTHESIS_START[sign]}word")
+                self.assertEqual(punctuation, f"{punc}{self.gv.PARENTHESIS_END[sign]}")
                 self.assertEqual(punctuation, punc+self.gv.PARENTHESIS_END[sign])
