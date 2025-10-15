@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
-from controller.dico_access import DicoAccess
+from app.src.controller.dico_access import DicoAccess
 
 
 class Chatterbox:
@@ -25,16 +25,16 @@ class Chatterbox:
 
     def __init__(self) -> None:
         # create the dictionary
-        self.dico_access = DicoAccess()
+        self.dico_access : DicoAccess = DicoAccess()
 
         # create the main window
-        self.window = tk.Tk()
+        self.window : tk.Tk = tk.Tk()
         self.window.title("Phrasaton")
         self.window.geometry("800x600")
         self.window.colormapwindows = "white"
 
         # text zone for conversation
-        self.output_text = ScrolledText(
+        self.output_text : ScrolledText = ScrolledText(
             self.window,
             bg="black",
             fg="white",
@@ -48,7 +48,7 @@ class Chatterbox:
         self.output_text.tag_configure("bot", foreground="green")
         self.output_text.tag_configure("error", foreground="red")
 
-        self.input_text = tk.Text(
+        self.input_text : tk.Text = tk.Text(
             self.window,
             bg="black",
             fg="white",
@@ -63,16 +63,17 @@ class Chatterbox:
         """
         Process the user's request
         """
-        command = self.input_text.get("1.0", tk.END).strip()
+        command : str = self.input_text.get("1.0", tk.END).strip()
         self.input_text.delete("1.0", tk.END)
         self.input_text.configure(state="disabled")
         self.use_output_box(command)
 
         # learn from user
-        err = self.dico_access.save_dico_data(command)
+        err : str = self.dico_access.save_dico_data(command)
         if err:
             self.use_output_box(err, "error")
         else:
+            # answer : str
             answer, err = self.dico_access.get_text_from_dico()
             if err:
                 self.use_output_box(err, "error")
@@ -85,7 +86,7 @@ class Chatterbox:
         """
         Loophole for the application to work.
         """
-        # Capture de la touche "Enter" pour traiter la commande
+        # Listen for the user to press <enter> to process the prompt
         self.window.bind("<Return>", lambda event: self.process_command())
         self.window.mainloop()
 
