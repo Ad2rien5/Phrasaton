@@ -1,5 +1,7 @@
-import app.src.model.word as word
 import unittest
+
+import app.src.model.word as word
+
 
 class TestWord(unittest.TestCase):
 

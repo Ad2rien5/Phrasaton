@@ -1,9 +1,8 @@
 import random
 import string
-
-import app.src.controller.dico_access as dico_access
 import unittest
 
+import app.src.controller.dico_access as dico_access
 from app.src.model import global_value
 
 
