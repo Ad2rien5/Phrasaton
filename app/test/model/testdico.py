@@ -1,7 +1,8 @@
-import app.src.model.dico as dico
-import app.src.model.word as word
-import app.src.model.global_value as global_value
 import unittest
+
+import app.src.model.dico as dico
+import app.src.model.global_value as global_value
+import app.src.model.word as word
 
 
 class TestDico(unittest.TestCase):
