@@ -1,3 +1,6 @@
+from app.src.model.global_value import GlobalValue
+
+
 class Word:
     """
     Attribute
@@ -49,9 +52,14 @@ class Word:
         """
         self._cache = []
 
-    def next_word(self) -> int:
+    def next_word(self, end: bool = False) -> int:
         """
         Function that find the next word in the sentence (in the case of the generation of a sentence).
+
+        Parameter
+        ---------
+        end: bool
+            if true, it indicates that 'leer' can be used.
 
         Return
         ------
@@ -60,14 +68,17 @@ class Word:
         """
         assert len(self._next) > 0, f"Can't ask a word for next when it has no next {self.value}"
         chosen_one : list[int]|None = None
+        leer : int = len(GlobalValue().PUNCTUATION)
 
         for element in self._next:
-
-            if chosen_one is None or (
+            if element[0] == leer and not end:
+                pass
+            elif chosen_one is None or (
                 element[1] >= chosen_one[1] and element[0] not in self._cache
             ):
                 chosen_one = element
 
+        assert chosen_one is not None, "This word doesn't enough word to make more sentences."
         self._cache.append(chosen_one[0])
         return chosen_one[0]
 

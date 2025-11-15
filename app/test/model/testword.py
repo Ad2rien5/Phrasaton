@@ -1,6 +1,7 @@
 import unittest
 
 import app.src.model.word as word
+from app.src.model.global_value import GlobalValue
 
 
 class TestWord(unittest.TestCase):
@@ -33,6 +34,11 @@ class TestWord(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.test_word.next_word()
 
+        self.test_word.add_word(len(GlobalValue().PUNCTUATION))
+        with self.assertRaises(AssertionError):
+            self.test_word.next_word()
+
+        self.test_word._next = []
         self.test_word.add_word(0)
         self.test_word.add_word(1)
         self.test_word.add_word(1)

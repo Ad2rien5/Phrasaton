@@ -95,8 +95,8 @@ class Dico:
         text : int = ""
 
         while nb < self.nbSentences:
-
-            after : int = self.words[current].next_word()
+            lastSentence : bool = nb < self.nbSentences-1
+            after : int = self.words[current].next_word(lastSentence)
             text += self.words[after].value
 
             if self.words[after].value in self.gv.end_sent_str():
