@@ -45,6 +45,12 @@ class ARv11(unittest.TestCase):
 
 
     def test_talk(self) -> None:
-        # demande une phrase
-        # vérifie si la suite de mot est retrouvée
-        pass
+        # setup
+        text : str = "Hello, this is still me, Phrasaton. I'm here to give you a big text for you to learn from. I'm doing this in order to test your capacity to speak. The ultimate goal behind this is to create a test to make sure an update doesn't make you regress. I hope this is fine with you even if you don't have a choice. With that being said, see you next time."
+        self.dico_access.save_dico_data(text)
+        text, erreur = self.dico_access.get_text_from_dico()
+        words : list[str] = text.split()
+
+        # verification
+        self.assertEqual(erreur, None, "It shouldn't be have any error here... :/")
+
