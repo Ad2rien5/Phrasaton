@@ -70,3 +70,22 @@ class Word:
 
         self._cache.append(chosen_one[0])
         return chosen_one[0]
+
+    def know_word(self, word : int) -> bool:
+        """
+        Function that indicate if this word can use another word in a sentence.
+
+        Parameter
+        ---------
+        word: int
+            index of the word to be checked
+
+        Return
+        ------
+        result: bool
+            whether the word can use this other word in a sentence or not.
+        """
+        for element in self._next:
+            if element[0] == word:
+                return True
+        return False

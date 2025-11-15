@@ -43,3 +43,13 @@ class TestWord(unittest.TestCase):
         self.assertEqual(oracle, test)
 
         self.assertEqual(self.test_word.next_word(), 0)
+
+    def test_know_word(self) -> None:
+        self.assertFalse(self.test_word.know_word(0))
+        self.assertFalse(self.test_word.know_word(3))
+
+        self.test_word.add_word(0)
+        self.test_word.add_word(1)
+
+        self.assertTrue(self.test_word.know_word(0))
+        self.assertTrue(self.test_word.know_word(1))
