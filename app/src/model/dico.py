@@ -21,7 +21,7 @@ class Dico:
     def __init__(self) -> None:
         self.nbSentences : int = 0
 
-        # initialisation de la base de donnée
+        # initialisation of the database
         self.gv : GlobalValue = global_value.GlobalValue()
         self.words : list[word.Word] = [word.Word(element) for element in self.gv.PUNCTUATION]
         self.words.append(word.Word("leer"))
